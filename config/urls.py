@@ -9,21 +9,21 @@ PRICING_PLANS = [
         'price': 'Bepul',
         'period': '14 kunlik sinov',
         'popular': False,
-        'features': ['20 ta manba', '50 yangilik/kun', 'Telegram bot', '3 kategoriya'],
+        'features': ['20 ta manba', '50 yangilik/kunlik', 'Telegram bot', '3 kategoriya'],
     },
     {
         'name': 'Standard',
         'price': '299K',
         'period': "so'm / oy",
         'popular': True,
-        'features': ['100+ manba', '500 yangilik/kun', 'API + Telegram', 'Barcha kategoriyalar', 'Admin panel', 'AutoPosting'],
+        'features': ['100+ manba', '500 yangilik/kunlik', 'API + Telegram', 'Barcha kategoriyalar', 'Admin panel', 'AutoPosting'],
     },
     {
         'name': 'Enterprise',
         'price': 'Kelishuv',
         'period': 'asosida',
         'popular': False,
-        'features': ['1000+ manba', 'Cheksiz yangilik', 'Maxsus API', 'Custom AI modeli', 'Video yangiliklar', 'Dedicated support'],
+        'features': ['1000+ manba', 'Cheksiz yangilik', 'Maxsus API', 'Custom AI modeli', 'Video yangiliklar', "Doimiy qo'llab quvvatlash"],
     },
 ]
 

@@ -9,9 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* ══════════════════════════════
-       RESET & VARIABLES
-    ══════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -42,9 +39,6 @@
 
     a { text-decoration: none; color: inherit; }
 
-    /* ══════════════════════════════
-       NAVBAR
-    ══════════════════════════════ */
     #navbar {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
@@ -75,9 +69,6 @@
     }
     .nav-cta:hover { background: var(--indigo-dark); transform: translateY(-1px); }
 
-    /* ══════════════════════════════
-       HERO
-    ══════════════════════════════ */
     #hero {
       min-height: 100vh;
       display: flex; align-items: center; justify-content: center;
@@ -171,9 +162,6 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ══════════════════════════════
-       SECTION COMMONS
-    ══════════════════════════════ */
     section { padding: 80px 6vw; }
 
     .section-tag {
@@ -186,44 +174,13 @@
       font-size: 1.85rem; font-weight: 800; color: var(--slate);
       margin-bottom: 8px; letter-spacing: -0.4px;
     }
-    .section-sub { color: var(--muted); font-size: 0.92rem; max-width: 460px; line-height: 1.7; }
+    .section-sub { color: var(--muted); font-size: 0.92rem; line-height: 1.7; }
 
-    /* ══════════════════════════════
-       HOW IT WORKS
-    ══════════════════════════════ */
-    #how { background: var(--white); }
-
-    .how-grid {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 18px; margin-top: 36px;
-    }
-    .how-card {
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 14px; padding: 26px 22px;
-      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-    }
-    .how-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 28px rgba(91,91,214,0.1);
-      border-color: var(--indigo-light);
-    }
-    .how-icon {
-      width: 46px; height: 46px; border-radius: 11px;
-      background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.25rem; margin-bottom: 14px;
-    }
-    .how-step { font-size: 0.7rem; font-weight: 700; color: var(--indigo); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
-    .how-card h3 { font-size: 0.97rem; font-weight: 700; color: var(--slate); margin-bottom: 7px; }
-    .how-card p  { color: var(--muted); font-size: 0.85rem; line-height: 1.65; }
-
-    /* ══════════════════════════════
-       FEATURES
-    ══════════════════════════════ */
+    /* FEATURES */
     #features { background: linear-gradient(155deg, #EEF2FF 0%, #F5F2FF 100%); }
 
     .features-grid {
-      display: grid; grid-template-columns: repeat(3,1fr);
+      display: grid; grid-template-columns: repeat(2,1fr);
       gap: 14px; margin-top: 36px;
     }
     .feature-card {
@@ -241,9 +198,7 @@
     .feature-card h4 { font-size: 0.88rem; font-weight: 700; color: var(--slate); margin-bottom: 5px; }
     .feature-card p  { color: var(--muted); font-size: 0.8rem; line-height: 1.6; }
 
-    /* ══════════════════════════════
-       NEWS TYPES
-    ══════════════════════════════ */
+    /* NEWS TYPES */
     #news-types { background: var(--white); }
 
     .news-tags { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 26px; }
@@ -272,9 +227,7 @@
     .ticker-item::before { content: "📰"; }
     @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-    /* ══════════════════════════════
-       PRICING
-    ══════════════════════════════ */
+    /* PRICING */
     #pricing { background: linear-gradient(155deg, #EEF2FF 0%, #F5F7FF 100%); }
 
     .pricing-grid {
@@ -330,9 +283,7 @@
     .plan-btn-solid { background: #fff; color: var(--indigo); }
     .plan-btn-solid:hover { background: rgba(255,255,255,0.9); }
 
-    /* ══════════════════════════════
-       REGISTER
-    ══════════════════════════════ */
+    /* REGISTER */
     #register { background: var(--white); }
 
     .register-layout {
@@ -386,9 +337,7 @@
     .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 7px 20px rgba(91,91,214,0.35); }
     .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-    /* ══════════════════════════════
-       CTA BANNER
-    ══════════════════════════════ */
+    /* CTA BANNER */
     #cta-banner {
       background: var(--indigo); padding: 64px 6vw; text-align: center;
     }
@@ -401,9 +350,7 @@
     }
     .cta-btn-white:hover { transform: translateY(-2px); }
 
-    /* ══════════════════════════════
-       FOOTER
-    ══════════════════════════════ */
+    /* FOOTER */
     footer {
       background: var(--slate); color: rgba(255,255,255,0.55);
       padding: 24px 6vw; display: flex;
@@ -416,15 +363,10 @@
     .footer-links a:hover { color: #fff; }
     .footer-copy { font-size: 0.75rem; }
 
-    /* ══════════════════════════════
-       REVEAL
-    ══════════════════════════════ */
     .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.55s ease, transform 0.55s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* ══════════════════════════════
-       MODAL
-    ══════════════════════════════ */
+    /* MODAL */
     .modal-overlay {
       display: none; position: fixed; inset: 0; z-index: 999;
       background: rgba(30,42,69,0.48); align-items: center; justify-content: center;
@@ -448,15 +390,11 @@
     }
     .modal-close:hover { background: var(--indigo-dark); }
 
-    /* ══════════════════════════════
-       RESPONSIVE
-    ══════════════════════════════ */
     @media (max-width: 1024px) {
       .features-grid   { grid-template-columns: repeat(2,1fr); }
       .register-layout { grid-template-columns: 1fr; gap: 28px; }
     }
     @media (max-width: 768px) {
-      .how-grid     { grid-template-columns: 1fr; }
       .pricing-grid { grid-template-columns: 1fr; }
       .plan.popular { transform: none; }
       .form-row     { grid-template-columns: 1fr; }
@@ -476,7 +414,6 @@
 <nav id="navbar">
   <a href="/" class="logo">Sado<span>Uz</span></a>
   <ul class="nav-links">
-    <li><a href="#how">Qanday ishlaydi</a></li>
     <li><a href="#features">Xususiyatlar</a></li>
     <li><a href="#news-types">Yangiliklar</a></li>
     <li><a href="#pricing">Narxlar</a></li>
@@ -493,44 +430,17 @@
   </div>
   <div class="hero-inner">
     <div class="hero-badge"><span class="badge-dot"></span>Beta versiya ishga tushdi</div>
-    <h1 class="hero-title">Dunyo yangiliklarini<br><em>3 soniyada</em> qo'lingizga</h1>
-    <p class="hero-sub">SadoUz — ming manbadan yangiliklar yig'ib, AI yordamida o'zbek tiliga tarjima qiladi va sizning platformangizga avtomatik yetkazadi.</p>
+    <h1 class="hero-title">Dunyo yangiliklari<br><em>3 soniyada</em> qo'lingizda</h1>
+    <p class="hero-sub">SadoUz — minglab manbalardan yangiliklarni yig'ib, AI yordamida o'zbek tiliga tarjima qiladi va sizning platformangizga avtomatik yetkazib beradi.</p>
     <div class="hero-buttons">
       <a href="#register" class="btn-primary">Bepul sinab ko'ring →</a>
-      <a href="#how" class="btn-ghost">Qanday ishlaydi?</a>
+      <a href="#features" class="btn-ghost">Xususiyatlarni ko'ring</a>
     </div>
     <div class="hero-stats">
-      <div class="stat"><div class="stat-num">200K+</div><div class="stat-lbl">Yangilik / kun</div></div>
+      <div class="stat"><div class="stat-num">200K+</div><div class="stat-lbl">Yangilik / kunlik</div></div>
       <div class="stat"><div class="stat-num">1000+</div><div class="stat-lbl">Manbalar</div></div>
       <div class="stat"><div class="stat-num">3 sek</div><div class="stat-lbl">Yetkazish vaqti</div></div>
       <div class="stat"><div class="stat-num">B2B</div><div class="stat-lbl">API xizmati</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section id="how">
-  <div class="section-tag">Jarayon</div>
-  <h2 class="section-title">Qanday ishlaydi?</h2>
-  <p class="section-sub">Uchta oddiy qadam — barcha dunyo yangiliklari o'zbek tilida, real vaqtda.</p>
-  <div class="how-grid">
-    <div class="how-card reveal">
-      <div class="how-icon">🌐</div>
-      <div class="how-step">Qadam 01</div>
-      <h3>Yig'ish</h3>
-      <p>API va scraping orqali dunyo bo'ylab minglab manbalardan yangiliklar sekundlar ichida yig'iladi — BBC, Reuters, Al Jazeera va boshqalar.</p>
-    </div>
-    <div class="how-card reveal">
-      <div class="how-icon">🤖</div>
-      <div class="how-step">Qadam 02</div>
-      <h3>AI Tahlil</h3>
-      <p>Sun'iy intellekt yangilikni o'qiydi, xulosa chiqaradi, kategoriyalaydi va professional darajada o'zbek tiliga tarjima qiladi.</p>
-    </div>
-    <div class="how-card reveal">
-      <div class="how-icon">📡</div>
-      <div class="how-step">Qadam 03</div>
-      <h3>Yetkazish</h3>
-      <p>Tayyor ma'lumot sizning tizimingizga — CMS, Telegram kanal, mobil ilova yoki saytga — Universal API orqali avtomatik yuboriladi.</p>
     </div>
   </div>
 </section>
@@ -544,27 +454,17 @@
     <div class="feature-card">
       <div class="feature-icon">⚡</div>
       <h4>Real vaqt yangiliklar</h4>
-      <p>Yangilik chiqishi bilan 3 soniya ichida sizga yetadi. Hech qanday kechikish yo'q.</p>
+      <p>Yangilik chiqishi bilan 3 soniya ichida sizga yetib boradi. Hech qanday kechikish yo'q.</p>
     </div>
     <div class="feature-card">
       <div class="feature-icon">🇺🇿</div>
-      <h4>O'zbek tiliga maxsus AI</h4>
+      <h4>O'zbek tili uchun maxsus AI</h4>
       <p>O'zbek tilining grammatikasi va uslubiga moslashtirilgan tarjima modeli.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🔌</div>
-      <h4>Universal API</h4>
-      <p>Istalgan platformaga ulaning — Telegram, WordPress, React va boshqalar.</p>
     </div>
     <div class="feature-card">
       <div class="feature-icon">📂</div>
       <h4>Aqlli kategoriyalash</h4>
       <p>Siyosat, Iqtisodiyot, Sport, Texnologiya — barcha yangiliklar avtomatik tartiblangan.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🤖</div>
-      <h4>Telegram AutoPost</h4>
-      <p>Kanalingizga yangiliklar avtomatik chiqsin. Botni bir marta sozlang, unuting.</p>
     </div>
     <div class="feature-card">
       <div class="feature-icon">📊</div>
@@ -591,12 +491,12 @@
         <span class="ticker-item">Jahon iqtisodiyotida yangi tendensiyalar kuzatilmoqda</span>
         <span class="ticker-item">Sun'iy intellekt sohasida yangi kashfiyot e'lon qilindi</span>
         <span class="ticker-item">Milliy futbol terma jamoasi g'alaba qozondi</span>
-        <span class="ticker-item">Texnologiya gigantsining yangi mahsuloti taqdim etildi</span>
+        <span class="ticker-item">Texnologiya gigantlarining yangi mahsuloti taqdim etildi</span>
         <span class="ticker-item">Iqlim o'zgarishiga qarshi global kelishuv imzolandi</span>
         <span class="ticker-item">Jahon iqtisodiyotida yangi tendensiyalar kuzatilmoqda</span>
         <span class="ticker-item">Sun'iy intellekt sohasida yangi kashfiyot e'lon qilindi</span>
         <span class="ticker-item">Milliy futbol terma jamoasi g'alaba qozondi</span>
-        <span class="ticker-item">Texnologiya gigantsining yangi mahsuloti taqdim etildi</span>
+        <span class="ticker-item">Texnologiya gigantlarining yangi mahsuloti taqdim etildi</span>
         <span class="ticker-item">Iqlim o'zgarishiga qarshi global kelishuv imzolandi</span>
       </div>
     </div>
@@ -632,7 +532,7 @@
 <!-- REGISTER -->
 <section id="register">
   <div class="section-tag">Ro'yxatdan o'tish</div>
-  <h2 class="section-title">Bugun boshlayin</h2>
+  <h2 class="section-title">Hoziroq ro'yxatdan o'ting</h2>
   <div class="register-layout">
     <div class="register-info">
       <p>Ariza qoldiring — jamoa siz bilan 24 soat ichida bog'lanadi va API kalitingizni yuboradi.</p>
@@ -647,7 +547,7 @@
         </div>
         <div class="step-row">
           <div class="step-num">3</div>
-          <div class="step-text"><strong>API kalitingizni oling</strong><span>Va yangiliklar oqimiga ulanib oling</span></div>
+          <div class="step-text"><strong>API kalitingizni oling</strong><span>va yangiliklar oqimiga ulanib oling</span></div>
         </div>
       </div>
     </div>
@@ -717,7 +617,7 @@
 <footer>
   <div class="footer-logo">SadoUz</div>
   <div class="footer-links">
-    <a href="#how">Qanday ishlaydi</a>
+    <a href="#features">Xususiyatlar</a>
     <a href="#pricing">Narxlar</a>
     <a href="#register">Bog'lanish</a>
     <a href="mailto:info@sadouz.uz">info@sadouz.uz</a>
@@ -738,11 +638,9 @@
 
 <!-- JAVASCRIPT -->
 <script>
-  /* Navbar */
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', function () { navbar.classList.toggle('scrolled', window.scrollY > 10); });
 
-  /* Active nav */
   const secs = document.querySelectorAll('section[id]');
   const nls  = document.querySelectorAll('.nav-links a');
   window.addEventListener('scroll', function () {
@@ -751,13 +649,11 @@
     nls.forEach(function (a)  { a.classList.toggle('active', a.getAttribute('href') === '#' + cur); });
   });
 
-  /* Reveal */
   const obs = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(function (el) { obs.observe(el); });
 
-  /* Modal */
   const overlay  = document.getElementById('modalOverlay');
   const closeBtn = document.getElementById('modalClose');
   function showModal() { overlay.classList.add('show'); document.body.style.overflow = 'hidden'; }
@@ -766,32 +662,12 @@
   overlay.addEventListener('click', function (e) { if (e.target === overlay) hideModal(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hideModal(); });
 
-  /* Form */
   const form      = document.getElementById('registerForm');
   const submitBtn = document.getElementById('submitBtn');
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     submitBtn.disabled = true;
     submitBtn.textContent = 'Yuborilmoqda...';
-
-    /* Uncomment when backend ready:
-    const csrf = form.querySelector('[name=csrfmiddlewaretoken]').value;
-    fetch(form.dataset.url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf },
-      body: JSON.stringify({
-        name: document.getElementById('inp-name').value,
-        company: document.getElementById('inp-company').value,
-        email: document.getElementById('inp-email').value,
-        phone: document.getElementById('inp-phone').value,
-        platform: document.getElementById('inp-platform').value,
-        plan: document.getElementById('inp-plan').value,
-        message: document.getElementById('inp-message').value,
-      })
-    }).then(r => r.json()).then(d => {
-      if (d.status === 'ok') { showModal(); form.reset(); }
-    }).finally(() => { submitBtn.disabled = false; submitBtn.textContent = 'Ariza yuborish →'; });
-    */
 
     setTimeout(function () {
       showModal(); form.reset();
@@ -800,7 +676,6 @@
     }, 600);
   });
 
-  /* Pre-select plan from ?plan= URL param */
   (function () {
     const p = new URLSearchParams(window.location.search).get('plan');
     if (p) { const o = document.querySelector('#inp-plan option[value="' + p + '"]'); if (o) o.selected = true; }
