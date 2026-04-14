@@ -10,3 +10,4 @@ media/
 .idea
 *.log
 .DS_Store
+.idea/

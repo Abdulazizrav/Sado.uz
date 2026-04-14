@@ -8,7 +8,9 @@ SECRET_KEY = 'zt0r_+ym555y94yqb(vq_e0t-s6qdx7hbo619^5)!c3islhk=5'
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["sado.uz",
+                 "www.sado.uz",
+                 "sadouz-production.up.railway.app"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
