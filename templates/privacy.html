@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maxfiylik siyosati — SadoUz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4F46E5;
+      --primary-hover: #4338CA;
+      --primary-light: #EEF2FF;
+      --surface-100: #FFFFFF;
+      --surface-200: #F8FAFC;
+      --surface-300: #F1F5F9;
+      --text-main: #0F172A;
+      --text-muted: #475569;
+      --text-light: #94A3B8;
+      --border-color: #E2E8F0;
+      --accent: #0EA5E9;
+      --accent-light: #E0F2FE;
+      --max-w: 1280px;
+      --nav-height: 60px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--surface-200);
+      color: var(--text-main);
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
+
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw; height: var(--nav-height);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    }
+    .logo { 
+      font-size: 1.35rem; font-weight: 800; color: var(--primary); 
+      letter-spacing: -0.5px; display: flex; align-items: center; gap: 6px;
+    }
+    .logo span { color: var(--text-main); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { color: var(--text-muted); font-size: 0.95rem; font-weight: 600; }
+    .nav-links a:hover { color: var(--primary); }
+
+    .page-header {
+      position: relative;
+      padding: calc(var(--nav-height) + 80px) 5vw 80px;
+      background: var(--surface-100);
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+    .header-bg {
+      position: absolute; inset: 0; z-index: 0; opacity: 0.5;
+      background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: linear-gradient(to bottom, black, transparent);
+      -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+    }
+    .header-content { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; background: var(--primary-light);
+      color: var(--primary); font-size: 0.8rem; font-weight: 700;
+      border-radius: 100px; margin-bottom: 24px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+    .page-title { 
+      font-size: 3.5rem; font-weight: 800; color: var(--text-main); 
+      margin-bottom: 20px; letter-spacing: -1.5px; line-height: 1.1;
+    }
+    .page-sub { color: var(--text-muted); font-size: 1.15rem; max-width: 500px; margin: 0 auto; }
+
+    .layout-wrapper {
+      display: grid; grid-template-columns: 280px 1fr; gap: 64px;
+      max-width: var(--max-w); margin: 64px auto; padding: 0 5vw;
+      align-items: start;
+    }
+    .sidebar { position: sticky; top: calc(var(--nav-height) + 40px); }
+    .sidebar-title { 
+      font-size: 0.75rem; font-weight: 700; color: var(--text-light); 
+      text-transform: uppercase; letter-spacing: 0.1em; 
+      margin-bottom: 20px; padding-left: 16px;
+    }
+    .sidebar-nav { list-style: none; display: flex; flex-direction: column; gap: 4px; border-left: 1px solid var(--border-color); }
+    .sidebar-nav a {
+      display: block; padding: 8px 16px; margin-left: -1px;
+      font-size: 0.9rem; font-weight: 500; color: var(--text-muted);
+      border-left: 2px solid transparent;
+    }
+    .sidebar-nav a:hover { color: var(--text-main); }
+    .sidebar-nav a.active { color: var(--primary); font-weight: 600; border-left-color: var(--primary); }
+
+    .content-area {
+      background: var(--surface-100); border: 1px solid var(--border-color);
+      border-radius: 24px; padding: 64px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    }
+    .section { margin-bottom: 56px; }
+    .section:last-child { margin-bottom: 0; }
+    .section-header { margin-bottom: 24px; }
+    .section-number { font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; display: block; }
+    .section h2 { font-size: 1.75rem; font-weight: 700; color: var(--text-main); line-height: 1.3; }
+    .section p { color: var(--text-muted); margin-bottom: 20px; font-size: 1.05rem; }
+    .section ul { margin-bottom: 24px; list-style: none; }
+    .section li { position: relative; padding-left: 32px; margin-bottom: 12px; color: var(--text-muted); font-size: 1.05rem; }
+    .section li::before {
+      content: ""; position: absolute; left: 0; top: 8px; width: 14px; height: 14px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%234F46E5'%3E%3Cpath fill-rule='evenodd' d='M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z' clip-rule='evenodd'/%3E%3C/svg%3E");
+      background-size: contain; background-repeat: no-repeat;
+    }
+
+    footer {
+      background: var(--surface-100); border-top: 1px solid var(--border-color);
+      padding: 48px 5vw; display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 24px; margin-top: 80px;
+    }
+    .footer-logo { font-size: 1.25rem; font-weight: 800; color: var(--text-main); }
+    .footer-links { display: flex; gap: 32px; }
+    .footer-links a { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
+    .footer-links a:hover { color: var(--primary); }
+    .footer-copy { font-size: 0.85rem; color: var(--text-light); }
+
+    .progress-container { position: fixed; top: var(--nav-height); left: 0; width: 100%; height: 3px; z-index: 99; }
+    .progress-bar { height: 100%; background: var(--primary); width: 0%; }
+
+    @media (max-width: 1024px) { .layout-wrapper { grid-template-columns: 240px 1fr; gap: 40px; } .content-area { padding: 48px; } }
+    @media (max-width: 768px) {
+      .page-title { font-size: 2.5rem; } .layout-wrapper { grid-template-columns: 1fr; }
+      .sidebar { position: static; margin-bottom: 24px; }
+      .sidebar-nav { border-left: none; display: flex; flex-direction: row; flex-wrap: wrap; gap: 8px; }
+      .sidebar-nav a { border: 1px solid var(--border-color); border-radius: 100px; }
+      .content-area { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-container"><div class="progress-bar" id="myBar"></div></div>
+
+<nav id="navbar">
+  <a href="{% url 'home' %}" class="logo">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+    Sado<span>Uz</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="{% url 'home' %}#features">Xususiyatlar</a></li>
+    <li><a href="{% url 'home' %}#pricing">Narxlar</a></li>
+    <li><a href="{% url 'home' %}#register">Bog'lanish</a></li>
+  </ul>
+</nav>
+
+<header class="page-header">
+  <div class="header-bg"></div>
+  <div class="header-content">
+    <div class="eyebrow"><span class="eyebrow-dot"></span> Maxfiylik</div>
+    <h1 class="page-title">Maxfiylik siyosati</h1>
+    <p class="page-sub">Sizning shaxsiy ma'lumotlaringizni himoya qilish va ulardan foydalanish qoidalari.</p>
+  </div>
+</header>
+
+<main class="layout-wrapper">
+  <aside class="sidebar">
+    <div class="sidebar-title">Mundarija</div>
+    <ul class="sidebar-nav">
+      <li><a href="#soha" class="active">1. Qo‘llanilish sohasi</a></li>
+      <li><a href="#ma-lumotlar">2. To‘planadigan ma’lumotlar</a></li>
+      <li><a href="#cookies">3. Cookies</a></li>
+      <li><a href="#foydalanish">4. Foydalanish maqsadlari</a></li>
+      <li><a href="#almashinuv">5. Ma’lumotlar almashinuvi</a></li>
+      <li><a href="#nazorat">6. Foydalanuvchi nazorati</a></li>
+    </ul>
+  </aside>
+
+  <div class="content-area">
+    <section id="soha" class="section">
+      <div class="section-header">
+        <span class="section-number">01</span>
+        <h2>Qo‘llanilish sohasi va tasdiqlash</h2>
+      </div>
+      <p>1. Sado.uz servisidan foydalanuvchi jismoniy shaxslarga doir shaxsiy ma’lumotlar O‘zbekiston Respublikasi qonunchiligiga muvofiq ro‘yxatdan o‘tgan “MICRON” Mas’uliyati Cheklangan Jamiyat (bundan buyon – Kompaniya) tomonidan qayta ishlanadi.</p>
+      <p>2. Foydalanuvchilarning shaxsiy ma’lumotlari O‘zbekiston Respublikasi hududida joylashgan serverlarda saqlanadi.</p>
+      <p>3. Ushbu Maxfiylik siyosati platformadan foydalanish imkonini beradi.</p>
+      <p>4. Servisdan foydalanish davomida quyidagi ma’lumotlarni taqdim etishga rozilik beriladi: ism va familiya, telefon raqami, elektron pochta, hudud va boshqa aloqa ma’lumotlari.</p>
+    </section>
+
+    <section id="ma-lumotlar" class="section">
+      <div class="section-header">
+        <span class="section-number">02</span>
+        <h2>Kompaniya tomonidan to‘planadigan ma’lumotlar</h2>
+      </div>
+      <p><strong>1. Akkaunt ma’lumotlari:</strong> Email, telefon raqami, parol va profil ma’lumotlari.</p>
+      <p><strong>2. Servisdagi faoliyat:</strong> Foydalanuvchilar o‘rtasidagi muloqot, buyurtmalar va xizmatlardan foydalanish jarayoniga oid ma’lumotlar.</p>
+      <p><strong>3. Texnik ma’lumotlar:</strong> IP manzil, qurilma turi, brauzer ma’lumotlari va foydalanish statistikasi avtomatik yig‘iladi.</p>
+    </section>
+
+    <section id="cookies" class="section">
+      <div class="section-header">
+        <span class="section-number">03</span>
+        <h2>Cookies va texnologiyalar</h2>
+      </div>
+      <p>Kompaniya cookies, pixels va lokal saqlash texnologiyalaridan foydalanadi. Bu foydalanuvchi tajribasini yaxshilash uchun xizmat qiladi.</p>
+    </section>
+
+    <section id="foydalanish" class="section">
+      <div class="section-header">
+        <span class="section-number">04</span>
+        <h2>Shaxsiy ma’lumotlardan foydalanish</h2>
+      </div>
+      <p>Ma’lumotlar quyidagi maqsadlarda ishlatiladi:</p>
+      <ul>
+        <li>Xizmatlarni taqdim etish</li>
+        <li>Akkauntlarni boshqarish</li>
+        <li>Texnik muammolarni hal qilish</li>
+        <li>Marketing va reklama</li>
+        <li>Xavfsizlikni ta’minlash</li>
+      </ul>
+    </section>
+
+    <section id="almashinuv" class="section">
+      <div class="section-header">
+        <span class="section-number">05</span>
+        <h2>Ma’lumotlar almashinuvi</h2>
+      </div>
+      <p>Kompaniya qonun talabiga binoan davlat organlariga yoki texnik hamkorlarga ma’lumotlarni taqdim etishi mumkin. Shaxsiy ma’lumotlar sotilmaydi yoki ijaraga berilmaydi.</p>
+    </section>
+
+    <section id="nazorat" class="section">
+      <div class="section-header">
+        <span class="section-number">06</span>
+        <h2>Foydalanuvchi nazorati</h2>
+      </div>
+      <p>Foydalanuvchi o‘z ma’lumotlarini ko‘rishi, tahrirlashi va o‘chirishi mumkin. Kompaniya ma’lumotlarni himoya qilish uchun barcha texnik choralar ko‘radi.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-logo">SadoUz</div>
+  <div class="footer-links">
+    <a href="{% url 'home' %}#features">Xususiyatlar</a>
+    <a href="{% url 'home' %}#pricing">Narxlar</a>
+    <a href="{% url 'home' %}#register">Bog'lanish</a>
+    <a href="{% url 'oferta' %}">Ommaviy oferta</a>
+    <a href="{% url 'privacy' %}">Maxfiylik siyosati</a>
+  </div>
+  <div class="footer-copy">© 2026 SadoUz. Barcha huquqlar himoyalangan.</div>
+</footer>
+
+<script>
+  window.onscroll = function() {
+    let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    let scrolled = (winScroll / height) * 100;
+    document.getElementById("myBar").style.width = scrolled + "%";
+  };
+
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (pageYOffset >= (sectionTop - 120)) { current = section.getAttribute('id'); }
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href').includes(current)) { link.classList.add('active'); }
+    });
+  });
+</script>
+
+</body>
+</html>
