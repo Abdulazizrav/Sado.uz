@@ -201,17 +201,8 @@
     .feature-card h4 { font-size: 0.88rem; font-weight: 700; color: var(--slate); margin-bottom: 5px; }
     .feature-card p  { color: var(--muted); font-size: 0.8rem; line-height: 1.6; }
 
-    /* NEWS TYPES */
-    #news-types { background: var(--white); }
 
-    .news-tags { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 26px; }
-    .news-tag {
-      background: var(--sky-pale); border: 1px solid var(--sky-border);
-      color: var(--indigo); font-weight: 600; padding: 6px 14px;
-      border-radius: 50px; font-size: 0.82rem;
-      transition: background 0.2s, color 0.2s, transform 0.15s; cursor: pointer;
-    }
-    .news-tag:hover, .news-tag.active { background: var(--indigo); color: #fff; transform: translateY(-2px); }
+
 
     .news-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -230,57 +221,114 @@
       border-color: rgba(91,91,214,0.3);
       box-shadow: 0 16px 36px rgba(91,91,214,0.12);
     }
-    .news-meta {
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 0.75rem; color: var(--muted); font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.5px;
-    }
-    .news-source {
-      color: var(--indigo); background: var(--indigo-pale);
-      padding: 5px 12px; border-radius: 6px; font-weight: 800;
-      display: inline-flex; align-items: center; gap: 6px;
-    }
-    .news-source::before {
-      content: ""; display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--indigo);
-    }
-    .summary-highlight {
-      font-size: 1.05rem; font-weight: 600; color: var(--slate); line-height: 1.6;
-      display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
-      margin-bottom: 4px;
-    }
-    .article-title-small {
-      font-size: 0.8rem; font-weight: 600; color: var(--muted); line-height: 1.4;
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-      border-left: 2px solid var(--border); padding-left: 10px; margin-top: auto;
-    }
-    .news-card:hover .summary-highlight { color: var(--indigo); }
 
+
+    /* LIVE NEWS SECTION */
+    #live-news { background: var(--white); }
+
+    .channel-filter-bar {
+      display: flex; gap: 9px; flex-wrap: wrap; margin-top: 26px;
+    }
+    .ch-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--sky-pale); border: 1px solid var(--sky-border);
+      color: var(--indigo); font-weight: 600; padding: 7px 15px;
+      border-radius: 50px; font-size: 0.82rem;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .ch-btn:hover, .ch-btn.active {
+      background: var(--indigo); color: #fff;
+      border-color: var(--indigo); transform: translateY(-2px);
+    }
+    .ch-btn .ch-icon { font-size: 0.9rem; }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 22px; margin-top: 32px;
+    }
+    .news-card {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 16px; padding: 22px;
+      display: flex; flex-direction: column; gap: 12px;
+      position: relative; overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+      text-decoration: none;
+    }
+    .news-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(91,91,214,0.3);
+      box-shadow: 0 16px 36px rgba(91,91,214,0.12);
+    }
+    .news-card-top {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; gap: 10px;
+    }
+    .channel-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--indigo-pale); color: var(--indigo);
+      font-size: 0.72rem; font-weight: 800; padding: 4px 10px;
+      border-radius: 50px; white-space: nowrap; flex-shrink: 0;
+    }
+    .channel-badge::before { content: "📢"; }
+    .news-date {
+      font-size: 0.72rem; color: var(--muted); font-weight: 600;
+      white-space: nowrap;
+    }
+    .news-summary {
+      font-size: 0.97rem; font-weight: 600; color: var(--slate);
+      line-height: 1.6;
+      display: -webkit-box; -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical; overflow: hidden;
+      flex: 1;
+    }
+    .news-card:hover .news-summary { color: var(--indigo); }
+    .news-original-title {
+      font-size: 0.78rem; color: var(--muted); line-height: 1.4;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+      border-left: 2px solid var(--border); padding-left: 9px;
+      margin-top: 2px;
+    }
     .news-card-footer {
-      margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: flex-end;
-      color: var(--indigo); font-weight: 800; font-size: 0.85rem; gap: 6px;
-      transition: color 0.2s;
+      margin-top: auto; padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center;
+      justify-content: space-between;
     }
-    .news-card-footer svg { width: 16px; height: 16px; transition: transform 0.2s; }
-    .news-card:hover .news-card-footer svg { transform: translateX(5px); }
-    .news-loading { text-align: center; padding: 40px; color: var(--muted); font-weight: 600; font-size: 0.9rem; }
+    .news-source-label {
+      font-size: 0.75rem; color: var(--muted); font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .news-read-link {
+      font-size: 0.82rem; font-weight: 800; color: var(--indigo);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .news-read-link svg { width: 14px; height: 14px; transition: transform 0.2s; }
+    .news-card:hover .news-read-link svg { transform: translateX(4px); }
 
-    .news-ticker {
-      margin-top: 28px; background: var(--bg);
-      border: 1px solid var(--border); border-radius: 12px;
-      padding: 14px 20px; overflow: hidden;
+    .news-loading-state {
+      grid-column: 1 / -1; text-align: center;
+      padding: 60px 20px; color: var(--muted);
     }
-    .ticker-label {
-      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--indigo);
-      margin-bottom: 9px; display: flex; align-items: center; gap: 6px;
+    .news-loading-spinner {
+      width: 36px; height: 36px; border: 3px solid var(--border);
+      border-top-color: var(--indigo); border-radius: 50%;
+      animation: spin 0.8s linear infinite; margin: 0 auto 14px;
     }
-    .ticker-dot { width: 6px; height: 6px; border-radius: 50%; background: #EF4444; animation: pulse 1.5s infinite; }
-    .ticker-wrap { overflow: hidden; }
-    .ticker-track { display: flex; gap: 48px; animation: ticker 25s linear infinite; white-space: nowrap; }
-    .ticker-item { color: var(--slate-mid); font-size: 0.85rem; display: flex; align-items: center; gap: 7px; }
-    .ticker-item::before { content: "📰"; }
-    @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .load-more-wrap { text-align: center; margin-top: 36px; }
+    .load-more-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--white); border: 1.5px solid var(--indigo);
+      color: var(--indigo); padding: 10px 28px; border-radius: 8px;
+      font-weight: 700; font-size: 0.88rem; cursor: pointer;
+      transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .load-more-btn:hover { background: var(--indigo); color: #fff; }
+    .load-more-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
     /* PRICING */
     #pricing { background: linear-gradient(155deg, #EEF2FF 0%, #F5F7FF 100%); }
@@ -484,7 +532,7 @@
   <a href="/" class="logo">Sado<span>Uz</span></a>
   <ul class="nav-links">
     <li><a href="#features">Xususiyatlar</a></li>
-    <li><a href="#news-types">Yangiliklar</a></li>
+    <li><a href="#live-news">Yangiliklar</a></li>
     <li><a href="#pricing">Narxlar</a></li>
     <li><a href="#register">Bog'lanish</a></li>
   </ul>
@@ -543,23 +591,28 @@
   </div>
 </section>
 
-<!-- NEWS TYPES -->
-<section id="news-types">
-  <div class="section-tag">AI Summarizer</div>
-  <h2 class="section-title">Yangiliklar qisqartmasi</h2>
-  <p class="section-sub">AI yordamida tayyorlangan eng muhim yangiliklar qisqartmasi bilan tanishing.</p>
-  
-  <div class="news-tags reveal" id="categoryTags">
-    {% for cat in categories %}
-    <div class="news-tag" data-category="{{ cat.value }}">{{ cat.icon }} {{ cat.label }}</div>
-    {% endfor %}
+<!-- LIVE NEWS -->
+<section id="live-news">
+  <div class="section-tag">📡 Telegram Yangiliklari</div>
+  <h2 class="section-title">Telegram kanallariga yuborilgan yangiliklar</h2>
+  <p class="section-sub">Faqat haqiqiy yetkazilgan xabarlar — sun'iy intellekt tayyorlagan bayonlar bilan.</p>
+
+  <div class="channel-filter-bar reveal" id="channelFilterBar">
+    <button class="ch-btn active" data-channel="" id="ch-all">
+      <span class="ch-icon">📋</span> Barchasi
+    </button>
+    <!-- Channels loaded dynamically -->
   </div>
 
-  <div id="news-container" class="reveal">
-    <div class="news-loading" style="display: none;">Qisqartmalar yuklanmoqda...</div>
-    <div class="news-grid" id="newsGrid">
-      <!-- Summaries will be rendered here dynamically -->
+  <div class="news-grid reveal" id="newsGrid">
+    <div class="news-loading-state" id="newsLoadingState">
+      <div class="news-loading-spinner"></div>
+      <div>Yangiliklar yuklanmoqda...</div>
     </div>
+  </div>
+
+  <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+    <button class="load-more-btn" id="loadMoreBtn">Ko'proq yuklash ↓</button>
   </div>
 </section>
 
@@ -734,11 +787,10 @@
     e.preventDefault();
     submitBtn.disabled = true;
     submitBtn.textContent = 'Yuborilmoqda...';
-
     setTimeout(function () {
       showModal(); form.reset();
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Ariza yuborish →';
+      submitBtn.textContent = 'Ariza yuborish';
     }, 600);
   });
 
@@ -747,68 +799,130 @@
     if (p) { const o = document.querySelector('#inp-plan option[value="' + p + '"]'); if (o) o.selected = true; }
   })();
 
+  // Live News Feed
+  const newsGrid     = document.getElementById('newsGrid');
+  const loadingState = document.getElementById('newsLoadingState');
+  const loadMoreWrap = document.getElementById('loadMoreWrap');
+  const loadMoreBtn  = document.getElementById('loadMoreBtn');
+  const channelBar   = document.getElementById('channelFilterBar');
 
+  let currentChannelId = '';
+  let currentOffset    = 0;
+  let isLoading        = false;
 
-  // News fetching logic (Summaries focus)
-  const tags = document.querySelectorAll('.news-tag');
-  const newsGrid = document.getElementById('newsGrid');
-  const newsLoading = document.querySelector('.news-loading');
+  function formatDate(dateStr) {
+    if (!dateStr) return '';
+    try {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('uz-UZ', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch(e) { return dateStr; }
+  }
 
-  function fetchNews(category) {
-    newsGrid.innerHTML = '';
-    newsLoading.style.display = 'block';
-    
-    fetch(`/api/news/?category=${encodeURIComponent(category)}`)
-      .then(res => res.json())
-      .then(data => {
-        newsLoading.style.display = 'none';
-        if (data.status === 'ok' && data.news.length > 0) {
-          data.news.forEach(item => {
-            const date = item.published_date ? new Date(item.published_date).toLocaleDateString('uz-UZ') : '';
-            const summary = item.summary_text || 'Qisqartma tayyorlanmoqda...';
-            const card = document.createElement('a');
-            card.href = item.url || '#';
-            card.target = '_blank';
-            card.className = 'news-card';
-            card.innerHTML = `
-              <div class="news-meta">
-                <span class="news-source">${item.source || 'Manba'}</span>
-                <span>${date}</span>
-              </div>
-              <p class="summary-highlight">${summary}</p>
-              <h4 class="article-title-small">${item.title}</h4>
-              <div class="news-card-footer">
-                To'liq o'qish
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-              </div>
-            `;
-            newsGrid.appendChild(card);
-          });
-        } else {
-          newsGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--muted); padding: 40px;">Bu bo\'limda hozircha qisqartmalar yo\'q.</div>';
+  function buildCard(item) {
+    const card = document.createElement('a');
+    card.className = 'news-card';
+    card.href = item.url || '#';
+    if (item.url && item.url !== '#') card.target = '_blank';
+    card.rel = 'noopener noreferrer';
+    const summary = item.summary_text || 'Bayoni yuklanmoqda...';
+    const title   = item.title ? '<p class="news-original-title">' + item.title + '</p>' : '';
+    card.innerHTML =
+      '<div class="news-card-top">' +
+        '<span class="channel-badge">' + (item.channel_name || 'Kanal') + '</span>' +
+        '<span class="news-date">' + formatDate(item.published_date) + '</span>' +
+      '</div>' +
+      '<p class="news-summary">' + summary + '</p>' +
+      title +
+      '<div class="news-card-footer">' +
+        '<span class="news-source-label">' + (item.source || '') + '</span>' +
+        '<span class="news-read-link">O\'qish ' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+            '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>' +
+          '</svg>' +
+        '</span>' +
+      '</div>';
+    return card;
+  }
+
+  function fetchNews(channelId, offset, append) {
+    if (isLoading) return;
+    isLoading = true;
+    if (!append) {
+      newsGrid.innerHTML = '';
+      newsGrid.appendChild(loadingState);
+      loadingState.style.display = 'block';
+      loadMoreWrap.style.display = 'none';
+    } else {
+      loadMoreBtn.disabled = true;
+      loadMoreBtn.textContent = 'Yuklanmoqda...';
+    }
+    let url = '/api/news/?offset=' + offset;
+    if (channelId) url += '&channel_id=' + encodeURIComponent(channelId);
+    fetch(url)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        loadingState.style.display = 'none';
+        isLoading = false;
+        if (data.status === 'ok') {
+          if (data.news.length === 0 && !append) {
+            newsGrid.innerHTML = '<div class="news-loading-state" style="grid-column:1/-1"><div style="font-size:2.5rem;margin-bottom:12px">📭</div><div>Hozircha yetkazilgan yangiliklar yo\'q.</div></div>';
+          } else {
+            data.news.forEach(function(item) { newsGrid.appendChild(buildCard(item)); });
+          }
+          loadMoreWrap.style.display = data.has_more ? 'block' : 'none';
+          loadMoreBtn.disabled = false;
+          loadMoreBtn.textContent = "Ko'proq yuklash";
+        } else if (!append) {
+          newsGrid.innerHTML = '<div class="news-loading-state" style="grid-column:1/-1;color:#e55;">Xatolik: ' + data.message + '</div>';
         }
       })
-      .catch(err => {
-        newsLoading.style.display = 'none';
-        newsGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: red; padding: 40px;">Xatolik yuz berdi. Iltimos keyinroq urinib ko\'ring.</div>';
+      .catch(function(err) {
+        isLoading = false;
+        loadingState.style.display = 'none';
+        if (!append) newsGrid.innerHTML = '<div class="news-loading-state" style="grid-column:1/-1;color:#e55;">Server bilan ulanishda xatolik.</div>';
         console.error(err);
       });
   }
 
-  tags.forEach(tag => {
-    tag.addEventListener('click', function() {
-      tags.forEach(t => t.classList.remove('active'));
-      this.classList.add('active');
-      fetchNews(this.getAttribute('data-category'));
-    });
-  });
-
-  if (tags.length > 0) {
-    tags[0].classList.add('active');
-    fetchNews(tags[0].getAttribute('data-category'));
+  function loadChannels() {
+    fetch('/api/channels/')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.status === 'ok' && data.channels.length > 0) {
+          data.channels.forEach(function(ch) {
+            const btn = document.createElement('button');
+            btn.className = 'ch-btn';
+            btn.dataset.channelId = ch.channel_id;
+            btn.innerHTML = '<span class="ch-icon">📢</span> ' + ch.name;
+            btn.addEventListener('click', function () {
+              document.querySelectorAll('.ch-btn').forEach(function(b) { b.classList.remove('active'); });
+              this.classList.add('active');
+              currentChannelId = this.dataset.channelId;
+              currentOffset = 0;
+              fetchNews(currentChannelId, 0, false);
+            });
+            channelBar.appendChild(btn);
+          });
+        }
+      })
+      .catch(function(err) { console.error('Channels error:', err); });
   }
 
+  document.getElementById('ch-all').addEventListener('click', function () {
+    document.querySelectorAll('.ch-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    currentChannelId = '';
+    currentOffset = 0;
+    fetchNews('', 0, false);
+  });
 
+  loadMoreBtn.addEventListener('click', function () {
+    currentOffset += 12;
+    fetchNews(currentChannelId, currentOffset, true);
+  });
+
+  loadChannels();
+  fetchNews('', 0, false);
 </script>
 
 </body>

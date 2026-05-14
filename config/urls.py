@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from django.http import JsonResponse
 import json
 
-from news.models import Category, Article
+from news.models import Category, Article, TelegramChannel, TelegramDelivery
 
 PRICING_PLANS = [
     {
@@ -16,9 +16,9 @@ PRICING_PLANS = [
         'features': [
             '1 ta Telegram kanal',
             'Oyiga 150 ta xabar (~350 bayon)',
-            'O‘zbek tiliga tarjima',
+            'O\u2019zbek tiliga tarjima',
             'Oddiy sun\'iy intelekt',
-            'Keyword filter (kalit so‘zlar)',
+            'Keyword filter (kalit so\u2019zlar)',
             'Avtomatik Telegramga joylash',
             'Standart qo\'llab quvvatlash'
         ],
@@ -29,7 +29,7 @@ PRICING_PLANS = [
         'price': "1,000,000",
         'period': "so'm / oy",
         'popular': True,
-        'target_audience': 'O‘rta bizneslar, media sahifalar va SMM jamoalar uchun.',
+        'target_audience': 'O\u2019rta bizneslar, media sahifalar va SMM jamoalar uchun.',
         'features': [
             '3 ta Telegram kanal',
             'Oyiga 500 ta xabar (~1300 bayon)',
@@ -53,68 +53,89 @@ PRICING_PLANS = [
             'VIP moslashtirish',
             'Breaking news (tezkor yangiliklar)',
             'Tahliliy dashboard',
-            'White-label (o‘z brendingiz bilan)',
+            'White-label (o\u2019z brendingiz bilan)',
             'Premium ko\'maklashish'
         ],
         'best_for': 'Katta media va avtomatlashtirilgan tizimlar'
     },
 ]
 
-def fetch_news_api(request):
-    category_name = request.GET.get('category', '')
-    
+
+def fetch_delivered_news(request):
+    """
+    Returns news articles that were successfully delivered to Telegram channels.
+    Only status='delivered' records are shown.
+    Supports optional ?channel_id=<id> filter and ?offset=<n> for pagination.
+    """
+    channel_id_filter = request.GET.get('channel_id', '')
+    offset = int(request.GET.get('offset', 0))
+    limit = 12
+
     try:
-        # Get the requested category
-        category = Category.objects.filter(name=category_name).first()
-        if not category:
-            return JsonResponse({'status': 'ok', 'news': []})
-        
-        # Fetch the articles dynamically (extremely fast)
-        # Only return articles that have an AI summary and are manually categorized
-        articles = Article.objects.filter(category=category, summary_rel__isnull=False).select_related('summary_rel').order_by('-published_date')[:12]
-        
+        qs = TelegramDelivery.objects.filter(
+            status='delivered'
+        ).select_related(
+            'summary__article',
+            'telegram_channel'
+        ).order_by('-sent_date', '-id')
+
+        if channel_id_filter:
+            qs = qs.filter(telegram_channel__channel_id=channel_id_filter)
+
+        deliveries = qs[offset: offset + limit]
+
         news_data = []
-        for a in articles:
-            summary = ''
-            if hasattr(a, 'summary_rel') and a.summary_rel:
-                summary = a.summary_rel.summary_text
-                
+        for delivery in deliveries:
+            summary = delivery.summary
+            article = summary.article if summary else None
+            channel = delivery.telegram_channel
+
             news_data.append({
-                'id': a.id,
-                'title': a.title,
-                'url': a.url,
-                'source': a.source,
-                'published_date': a.published_date,
-                'summary_text': summary
+                'id': delivery.id,
+                'summary_text': summary.summary_text if summary else '',
+                'title': article.title if article else '',
+                'url': article.url if article else '#',
+                'source': article.source if article else '',
+                'published_date': str(delivery.sent_date) if delivery.sent_date else '',
+                'channel_name': channel.name if channel else '',
+                'channel_id': str(channel.channel_id) if channel else '',
             })
-            
-        return JsonResponse({'status': 'ok', 'news': news_data})
-        
+
+        total = qs.count()
+        return JsonResponse({
+            'status': 'ok',
+            'news': news_data,
+            'has_more': (offset + limit) < total,
+            'total': total,
+        })
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+
+def fetch_channels(request):
+    """Returns the list of Telegram channels that have delivered news."""
+    try:
+        channel_ids = TelegramDelivery.objects.filter(
+            status='delivered'
+        ).values_list('telegram_channel_id', flat=True).distinct()
+
+        channels = TelegramChannel.objects.filter(id__in=channel_ids).values('id', 'name', 'channel_id')
+
+        return JsonResponse({'status': 'ok', 'channels': list(channels)})
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 
 def home_view(request):
     from django.shortcuts import render
-    
-    categories = Category.objects.all()
-    template_categories = []
-    for c in categories:
-        template_categories.append({
-            'icon': c.icon,
-            'label': c.name,
-            'value': c.name
-        })
-        
+
     return render(request, 'index.html', {
         'plans': PRICING_PLANS,
-        'categories': template_categories,
     })
 
 
 def contact_submit(request):
-    from django.views.decorators.http import require_POST
-
     if request.method != 'POST':
         from django.http import HttpResponseNotAllowed
         return HttpResponseNotAllowed(['POST'])
@@ -132,5 +153,6 @@ urlpatterns = [
     path('oferta/', TemplateView.as_view(template_name='oferta.html'), name='oferta'),
     path('privacy/', TemplateView.as_view(template_name='privacy.html'), name='privacy'),
     path('contact/', contact_submit, name='contact_submit'),
-    path('api/news/', fetch_news_api, name='fetch_news_api'),
+    path('api/news/', fetch_delivered_news, name='fetch_delivered_news'),
+    path('api/channels/', fetch_channels, name='fetch_channels'),
 ]
