@@ -40,18 +40,27 @@ class Article(models.Model):
 
 
 class Summary(models.Model):
-    article = models.OneToOneField(
+    """
+    Real DB structure:
+      id           bigint PK auto_increment
+      summary_text longtext
+      created_date datetime
+      article_id   bigint FK -> Article
+    """
+    summary_text = models.TextField(null=True, blank=True)
+    created_date = models.DateTimeField(null=True, blank=True)
+    article = models.ForeignKey(
         Article, on_delete=models.CASCADE,
-        primary_key=True, related_name='summary_rel'
+        null=True, blank=True, related_name='summaries',
+        db_column='article_id'
     )
-    summary_text = models.TextField()
 
     class Meta:
         managed = False
         db_table = 'Summary'
 
     def __str__(self):
-        return str(self.article)
+        return str(self.article) if self.article else f"Summary #{self.pk}"
 
 
 class TelegramChannel(models.Model):
@@ -69,8 +78,9 @@ class TelegramChannel(models.Model):
 
 
 class TelegramDelivery(models.Model):
-    """Read-only mirror of NewsCrawler's TelegramDelivery table.
-    Only records with status='delivered' are considered published news.
+    """
+    Read-only mirror of NewsCrawler's TelegramDelivery table.
+    status='sent' means successfully delivered to Telegram.
     """
     summary = models.ForeignKey(
         Summary, on_delete=models.CASCADE,
@@ -90,4 +100,4 @@ class TelegramDelivery(models.Model):
         db_table = 'TelegramDelivery'
 
     def __str__(self):
-        return f"Delivery → {self.telegram_channel.name}"
+        return f"Delivery -> {self.telegram_channel.name}"

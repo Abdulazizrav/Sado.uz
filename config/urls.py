@@ -64,7 +64,7 @@ PRICING_PLANS = [
 def fetch_delivered_news(request):
     """
     Returns news articles that were successfully delivered to Telegram channels.
-    Only status='delivered' records are shown.
+    Only status='sent' records are shown (actual DB value).
     Supports optional ?channel_id=<id> filter and ?offset=<n> for pagination.
     """
     channel_id_filter = request.GET.get('channel_id', '')
@@ -73,7 +73,7 @@ def fetch_delivered_news(request):
 
     try:
         qs = TelegramDelivery.objects.filter(
-            status='delivered'
+            status='sent'
         ).select_related(
             'summary__article',
             'telegram_channel'
@@ -82,12 +82,13 @@ def fetch_delivered_news(request):
         if channel_id_filter:
             qs = qs.filter(telegram_channel__channel_id=channel_id_filter)
 
-        deliveries = qs[offset: offset + limit]
+        total = qs.count()
+        deliveries = list(qs[offset: offset + limit])
 
         news_data = []
         for delivery in deliveries:
             summary = delivery.summary
-            article = summary.article if summary else None
+            article = getattr(summary, 'article', None)
             channel = delivery.telegram_channel
 
             news_data.append({
@@ -101,7 +102,6 @@ def fetch_delivered_news(request):
                 'channel_id': str(channel.channel_id) if channel else '',
             })
 
-        total = qs.count()
         return JsonResponse({
             'status': 'ok',
             'news': news_data,
@@ -110,14 +110,15 @@ def fetch_delivered_news(request):
         })
 
     except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+        import traceback
+        return JsonResponse({'status': 'error', 'message': str(e), 'trace': traceback.format_exc()}, status=500)
 
 
 def fetch_channels(request):
-    """Returns the list of Telegram channels that have delivered news."""
+    """Returns the list of Telegram channels that have sent news."""
     try:
         channel_ids = TelegramDelivery.objects.filter(
-            status='delivered'
+            status='sent'
         ).values_list('telegram_channel_id', flat=True).distinct()
 
         channels = TelegramChannel.objects.filter(id__in=channel_ids).values('id', 'name', 'channel_id')
