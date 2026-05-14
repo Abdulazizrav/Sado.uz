@@ -100,6 +100,7 @@ def fetch_delivered_news(request):
                 'published_date': str(delivery.sent_date) if delivery.sent_date else '',
                 'channel_name': channel.name if channel else '',
                 'channel_id': str(channel.channel_id) if channel else '',
+                'message_id': delivery.message_id,
             })
 
         return JsonResponse({

@@ -820,11 +820,19 @@
     } catch(e) { return dateStr; }
   }
 
+  function getTelegramLink(item) {
+    if (!item.channel_id || !item.message_id) return item.url || '#';
+    let cid = item.channel_id.toString();
+    if (cid.startsWith('-100')) cid = cid.substring(4);
+    else if (cid.startsWith('-')) cid = cid.substring(1);
+    return 'https://t.me/c/' + cid + '/' + item.message_id;
+  }
+
   function buildCard(item) {
     const card = document.createElement('a');
     card.className = 'news-card';
-    card.href = item.url || '#';
-    if (item.url && item.url !== '#') card.target = '_blank';
+    card.href = getTelegramLink(item);
+    card.target = '_blank';
     card.rel = 'noopener noreferrer';
     const summary = item.summary_text || 'Bayoni yuklanmoqda...';
     const title   = item.title ? '<p class="news-original-title">' + item.title + '</p>' : '';
