@@ -830,7 +830,6 @@
     const title   = item.title ? '<p class="news-original-title">' + item.title + '</p>' : '';
     card.innerHTML =
       '<div class="news-card-top">' +
-        '<span class="channel-badge">' + (item.channel_name || 'Kanal') + '</span>' +
         '<span class="news-date">' + formatDate(item.published_date) + '</span>' +
       '</div>' +
       '<p class="news-summary">' + summary + '</p>' +
