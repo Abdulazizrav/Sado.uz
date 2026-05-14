@@ -297,10 +297,12 @@
       display: flex; align-items: center;
       justify-content: space-between;
     }
+    .news-source-info { display: flex; flex-direction: column; gap: 2px; }
     .news-source-label {
-      font-size: 0.75rem; color: var(--muted); font-weight: 700;
+      font-size: 0.7rem; color: var(--muted); font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.04em;
     }
+    .news-channel-name { font-size: 0.75rem; color: var(--indigo); font-weight: 800; }
     .news-read-link {
       font-size: 0.82rem; font-weight: 800; color: var(--indigo);
       display: flex; align-items: center; gap: 5px;
@@ -834,7 +836,10 @@
       '<p class="news-summary">' + summary + '</p>' +
       title +
       '<div class="news-card-footer">' +
-        '<span class="news-source-label">' + (item.source || '') + '</span>' +
+        '<div class="news-source-info">' +
+          '<span class="news-source-label">' + (item.source || '') + '</span>' +
+          '<span class="news-channel-name">📢 ' + (item.channel_name || 'Kanal') + '</span>' +
+        '</div>' +
         '<span class="news-read-link">O\'qish ' +
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
             '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>' +
