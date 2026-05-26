@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse, Http404
 import json
 
-from news.models import Category, Article, TelegramChannel, TelegramDelivery
+from news.models import Category, Article, TelegramChannel, TelegramDelivery, ArticleImage
 
 PRICING_PLANS = [
     {
@@ -85,11 +85,25 @@ def fetch_delivered_news(request):
         total = qs.count()
         deliveries = list(qs[offset: offset + limit])
 
+        # Batch check images to prevent N+1
+        article_ids = [
+            d.summary.article.id 
+            for d in deliveries 
+            if d.summary and getattr(d.summary, 'article', None)
+        ]
+        
+        articles_with_images = set(
+            ArticleImage.objects.filter(article_id__in=article_ids).values_list('article_id', flat=True)
+        )
+
         news_data = []
         for delivery in deliveries:
             summary = delivery.summary
             article = getattr(summary, 'article', None)
             channel = delivery.telegram_channel
+
+            has_image = article.id in articles_with_images if article else False
+            image_url = f"/api/news/image/{article.id}/" if has_image else None
 
             news_data.append({
                 'id': delivery.id,
@@ -101,6 +115,8 @@ def fetch_delivered_news(request):
                 'channel_name': channel.name if channel else '',
                 'channel_id': str(channel.channel_id) if channel else '',
                 'message_id': delivery.message_id,
+                'has_image': has_image,
+                'image_url': image_url,
             })
 
         return JsonResponse({
@@ -113,6 +129,22 @@ def fetch_delivered_news(request):
     except Exception as e:
         import traceback
         return JsonResponse({'status': 'error', 'message': str(e), 'trace': traceback.format_exc()}, status=500)
+
+
+def serve_article_image(request, article_id):
+    """
+    Serves the raw JPEG/PNG image binary data stored in apps_articleimage.
+    """
+    try:
+        img_record = ArticleImage.objects.filter(article_id=article_id).first()
+        if not img_record or not img_record.image:
+            raise Http404("Image not found")
+        
+        response = HttpResponse(img_record.image, content_type="image/jpeg")
+        response['Cache-Control'] = 'public, max-age=86400'  # Cache for 1 day
+        return response
+    except Exception as e:
+        raise Http404("Image not found")
 
 
 def fetch_channels(request):
@@ -131,10 +163,7 @@ def fetch_channels(request):
 
 def home_view(request):
     from django.shortcuts import render
-
-    return render(request, 'index.html', {
-        'plans': PRICING_PLANS,
-    })
+    return render(request, 'index.html')
 
 
 def contact_submit(request):
@@ -157,4 +186,5 @@ urlpatterns = [
     path('contact/', contact_submit, name='contact_submit'),
     path('api/news/', fetch_delivered_news, name='fetch_delivered_news'),
     path('api/channels/', fetch_channels, name='fetch_channels'),
+    path('api/news/image/<int:article_id>/', serve_article_image, name='serve_article_image'),
 ]

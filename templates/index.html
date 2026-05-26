@@ -1,941 +1,1292 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SadoUz — Yangiliklar Avtomatlashtirish Tizimi</title>
-  <meta name="description" content="SadoUz — dunyo yangiliklarini yig'ish, AI bilan tahlil qilish va o'zbek tiliga tarjima qilishni avtomatlashtiradigan B2B tizim." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sado.uz — O'zbekiston va Jahon Yangiliklari Portali</title>
+  <meta name="description" content="Sado.uz — Sun'iy intellekt yordamida Telegram kanallaridan to'plangan eng so'nggi live yangiliklar portali.">
+  
+  <!-- Modern Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Premium News Palette & Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
-      --indigo:       #5B5BD6;
-      --indigo-dark:  #3D3D9E;
-      --indigo-light: #8080E0;
-      --indigo-pale:  #EEEEFF;
-      --sky-pale:     #EAF2FF;
-      --sky-border:   #C4D9F8;
-      --slate:        #1E2A45;
-      --slate-mid:    #3D4F6E;
-      --muted:        #6B7A99;
-      --bg:           #F5F7FF;
-      --white:        #FFFFFF;
-      --border:       #E2E8F8;
+      --bg-portal: #F6F8FC;
+      --bg-card: #FFFFFF;
+      --text-main: #0F1E36;
+      --text-muted: #4A5568;
+      --primary-blue: #0E52D0;
+      --primary-blue-hover: #0B3CA1;
+      --border-color: #E2E8F0;
+      --live-red: #E53E3E;
+      --shadow-sm: 0 1px 3px rgba(15, 30, 54, 0.05);
+      --shadow-md: 0 4px 12px rgba(15, 30, 54, 0.08);
+      --radius-lg: 12px;
+      --radius-md: 8px;
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: var(--bg);
-      color: var(--slate);
-      overflow-x: hidden;
-      line-height: 1.6;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-portal);
+      color: var(--text-main);
+      line-height: 1.5;
       font-size: 15px;
+      overflow-x: hidden;
     }
 
-    a { text-decoration: none; color: inherit; }
-
-    #navbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 4vw; height: 56px;
-      background: rgba(255,255,255,0.94);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      transition: box-shadow 0.3s;
-    }
-    #navbar.scrolled { box-shadow: 0 2px 16px rgba(91,91,214,0.08); }
-
-    .logo { font-size: 1.25rem; font-weight: 800; color: var(--indigo); letter-spacing: -0.4px; }
-    .logo span { color: var(--slate); }
-
-
-
-    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
-    .nav-links a {
-      color: var(--muted); font-size: 0.88rem; font-weight: 500;
-      transition: color 0.2s; padding-bottom: 2px;
-      border-bottom: 2px solid transparent;
-    }
-    .nav-links a:hover, .nav-links a.active { color: var(--indigo); border-bottom-color: var(--indigo); }
-
-    .nav-cta {
-      background: var(--indigo); color: #fff;
-      padding: 8px 18px; border-radius: 8px;
-      font-size: 0.85rem; font-weight: 700;
-      transition: background 0.2s, transform 0.15s;
-    }
-    .nav-cta:hover { background: var(--indigo-dark); transform: translateY(-1px); }
-
-    #hero {
-      min-height: 100vh;
-      display: flex; align-items: center; justify-content: center;
-      text-align: center; padding: 100px 6vw 60px;
-      position: relative; overflow: hidden;
+    a {
+      text-decoration: none;
+      color: inherit;
     }
 
-    .hero-bg {
-      position: absolute; inset: 0; z-index: 0;
-      background: linear-gradient(155deg, #EAF0FF 0%, #F5F7FF 45%, #EDE8FF 100%);
-    }
-    
-    .hero-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35; }
-    .orb1 { width: 380px; height: 380px; background: var(--indigo); top: -60px; left: -80px; }
-    .orb2 { width: 280px; height: 280px; background: #7DD4F8; bottom: -40px; right: -60px; }
-
-    .hero-inner {
-      position: relative; z-index: 1;
-      display: flex; flex-direction: column; align-items: center;
+    button {
+      font-family: inherit;
+      border: none;
+      background: none;
+      cursor: pointer;
     }
 
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: var(--white); border: 1px solid var(--border);
-      border-radius: 50px; padding: 5px 14px;
-      font-size: 0.77rem; font-weight: 600; color: var(--indigo);
-      margin-bottom: 22px;
-      animation: fadeUp 0.55s ease both;
-    }
-    .badge-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: #22C55E; box-shadow: 0 0 0 3px rgba(34,197,94,0.2);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-    .hero-title {
-      font-size: 2.75rem; font-weight: 800; line-height: 1.14;
-      color: var(--slate); letter-spacing: -0.8px;
-      margin-bottom: 16px; max-width: 640px;
-      animation: fadeUp 0.55s 0.1s ease both;
-    }
-    .hero-title em { color: var(--indigo); font-style: normal; }
-
-    .hero-sub {
-      font-size: 0.97rem; color: var(--muted); line-height: 1.7;
-      max-width: 480px; margin-bottom: 28px;
-      animation: fadeUp 0.55s 0.2s ease both;
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
 
-    .hero-buttons {
-      display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
-      margin-bottom: 44px;
-      animation: fadeUp 0.55s 0.3s ease both;
+    /* 1. TOP UTILITY BAR */
+    .top-bar {
+      background-color: #FFFFFF;
+      border-bottom: 1px solid var(--border-color);
+      padding: 8px 0;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
     }
-    .btn-primary {
-      display: inline-flex; align-items: center;
-      background: var(--indigo); color: #fff;
-      padding: 11px 22px; border-radius: 8px;
-      font-weight: 700; font-size: 0.9rem;
-      box-shadow: 0 4px 16px rgba(91,91,214,0.28);
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(91,91,214,0.38); }
 
-    .btn-ghost {
-      display: inline-flex; align-items: center;
-      background: rgba(255,255,255,0.85); color: var(--slate-mid);
-      border: 1.5px solid var(--border);
-      padding: 11px 22px; border-radius: 8px;
-      font-weight: 600; font-size: 0.9rem;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .btn-ghost:hover { border-color: var(--indigo); color: var(--indigo); }
-
-    .hero-stats {
+    .top-bar-inner {
       display: flex;
-      background: rgba(255,255,255,0.88);
-      border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
-      animation: fadeUp 0.55s 0.4s ease both;
-    }
-    .stat {
-      padding: 16px 28px; text-align: center;
-      border-right: 1px solid var(--border);
-    }
-    .stat:last-child { border-right: none; }
-    .stat-num { font-size: 1.4rem; font-weight: 800; color: var(--indigo); line-height: 1; }
-    .stat-lbl { font-size: 0.72rem; color: var(--muted); margin-top: 3px; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
+      justify-content: space-between;
+      align-items: center;
     }
 
-    section { padding: 80px 4vw; }
-
-    .section-tag {
-      display: inline-block; font-size: 0.7rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--indigo); background: var(--indigo-pale);
-      border-radius: 4px; padding: 3px 9px; margin-bottom: 10px;
+    .live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--live-red);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--live-red);
+      border-radius: 50%;
+      display: inline-block;
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.9); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.4; }
+      100% { transform: scale(0.9); opacity: 1; }
+    }
+
+    .top-bar-right {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .currency-widget {
+      display: flex;
+      gap: 12px;
+    }
+
+    .currency-item span {
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* 2. MAIN HEADER */
+    header {
+      background-color: #FFFFFF;
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      gap: 20px;
+    }
+
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary-blue);
+      letter-spacing: -0.8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .logo span {
+      color: var(--text-main);
+    }
+
+    /* DYNAMIC CHANNELS NAV BAR */
+    .channels-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 6px 0;
+      flex-grow: 1;
+      max-width: 60%;
+      scrollbar-width: none; /* Hide standard Firefox scroll */
+    }
+
+    .channels-bar::-webkit-scrollbar {
+      display: none; /* Hide Chrome scroll */
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      border-radius: 50px;
+      background-color: #F1F5F9;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.88rem;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background-color: var(--primary-blue);
+      color: #FFFFFF;
+    }
+
+    /* SEARCH BAR */
+    .search-box {
+      position: relative;
+      width: 240px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 16px 10px 38px;
+      border-radius: 50px;
+      border: 1px solid var(--border-color);
+      background-color: #F8FAFC;
+      font-size: 0.88rem;
+      color: var(--text-main);
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary-blue);
+      background-color: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(14, 82, 208, 0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      fill: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: none;
+    }
+
+    /* 3. EDITORIAL HERO SECTION (Featured & Sidebar) */
+    .editorial-hero {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+      margin: 30px 0;
+    }
+
+    @media (max-width: 992px) {
+      .editorial-hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* LEFT COL: FEATURED STORY */
+    .featured-story {
+      background-color: var(--bg-card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .featured-story:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .featured-img-wrap {
+      width: 100%;
+      height: 380px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .featured-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .featured-story:hover .featured-img-wrap img {
+      transform: scale(1.03);
+    }
+
+    .featured-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .featured-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .channel-pill {
+      background-color: #EBF8FF;
+      color: var(--primary-blue);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 50px;
+      text-transform: uppercase;
+    }
+
+    .news-time {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .featured-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.3;
+      transition: var(--transition);
+    }
+
+    .featured-story:hover .featured-title {
+      color: var(--primary-blue);
+    }
+
+    .featured-summary {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* RIGHT COL: LATEST NEWS SIDEBAR */
+    .latest-sidebar {
+      background-color: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      border-bottom: 2px solid var(--primary-blue);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sidebar-list {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      max-height: 480px;
+      padding-right: 4px;
+    }
+
+    .sidebar-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .sidebar-list::-webkit-scrollbar-thumb {
+      background-color: var(--border-color);
+      border-radius: 5px;
+    }
+
+    .sidebar-item {
+      padding: 14px 0;
+      border-bottom: 1px solid #EDF2F7;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .sidebar-item:last-child {
+      border-bottom: none;
+    }
+
+    .sidebar-item:hover .sidebar-title {
+      color: var(--primary-blue);
+    }
+
+    .sidebar-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sidebar-channel {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--primary-blue);
+    }
+
+    .sidebar-time {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .sidebar-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* 4. MAIN NEWS SECTION */
     .section-title {
-      font-size: 1.85rem; font-weight: 800; color: var(--slate);
-      margin-bottom: 8px; letter-spacing: -0.4px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 40px 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .section-sub { color: var(--muted); font-size: 0.92rem; line-height: 1.7; }
-
-    /* FEATURES */
-    #features { background: linear-gradient(155deg, #EEF2FF 0%, #F5F2FF 100%); }
-
-    .features-grid {
-      display: grid; grid-template-columns: repeat(2,1fr);
-      gap: 14px; margin-top: 36px;
-    }
-    .feature-card {
-      background: var(--white); border-radius: 12px; padding: 20px 18px;
-      border: 1px solid var(--border);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .feature-card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(91,91,214,0.09); }
-    .feature-icon {
-      width: 38px; height: 38px; border-radius: 9px;
-      background: var(--indigo-pale);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; margin-bottom: 10px;
-    }
-    .feature-card h4 { font-size: 0.88rem; font-weight: 700; color: var(--slate); margin-bottom: 5px; }
-    .feature-card p  { color: var(--muted); font-size: 0.8rem; line-height: 1.6; }
-
-
-
-
-    .news-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 24px; margin-top: 36px;
-    }
-    .news-card {
-      background: #ffffff; border: 1px solid var(--border);
-      border-radius: 16px; padding: 24px;
-      display: flex; flex-direction: column; gap: 14px;
-      text-decoration: none; position: relative; overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.03);
-    }
-    .news-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(91,91,214,0.3);
-      box-shadow: 0 16px 36px rgba(91,91,214,0.12);
-    }
-
-
-    /* LIVE NEWS SECTION */
-    #live-news { background: var(--white); }
-
-    .channel-filter-bar {
-      display: flex; gap: 9px; flex-wrap: wrap; margin-top: 26px;
-    }
-    .ch-btn {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: var(--sky-pale); border: 1px solid var(--sky-border);
-      color: var(--indigo); font-weight: 600; padding: 7px 15px;
-      border-radius: 50px; font-size: 0.82rem;
-      cursor: pointer; transition: all 0.2s;
-    }
-    .ch-btn:hover, .ch-btn.active {
-      background: var(--indigo); color: #fff;
-      border-color: var(--indigo); transform: translateY(-2px);
-    }
-    .ch-btn .ch-icon { font-size: 0.9rem; }
 
     .news-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 22px; margin-top: 32px;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 28px;
     }
+
+    @media (max-width: 480px) {
+      .news-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* NEWS CARDS */
     .news-card {
-      background: #fff; border: 1px solid var(--border);
-      border-radius: 16px; padding: 22px;
-      display: flex; flex-direction: column; gap: 12px;
-      position: relative; overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.03);
-      text-decoration: none;
+      background-color: var(--bg-card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: var(--transition);
     }
+
     .news-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(91,91,214,0.3);
-      box-shadow: 0 16px 36px rgba(91,91,214,0.12);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
     }
-    .news-card-top {
-      display: flex; justify-content: space-between;
-      align-items: flex-start; gap: 10px;
+
+    .card-img-wrap {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      position: relative;
     }
-    .channel-badge {
-      display: inline-flex; align-items: center; gap: 5px;
-      background: var(--indigo-pale); color: var(--indigo);
-      font-size: 0.72rem; font-weight: 800; padding: 4px 10px;
-      border-radius: 50px; white-space: nowrap; flex-shrink: 0;
+
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
     }
-    .channel-badge::before { content: "📢"; }
-    .news-date {
-      font-size: 0.72rem; color: var(--muted); font-weight: 600;
-      white-space: nowrap;
+
+    .news-card:hover .card-img-wrap img {
+      transform: scale(1.03);
     }
-    .news-summary {
-      font-size: 0.97rem; font-weight: 600; color: var(--slate);
-      line-height: 1.6;
-      display: -webkit-box; -webkit-line-clamp: 5;
-      -webkit-box-orient: vertical; overflow: hidden;
-      flex: 1;
+
+    .card-img-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #E2E8F0 0%, #CBD5E1 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #94A3B8;
+      font-size: 3rem;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
     }
-    .news-card:hover .news-summary { color: var(--indigo); }
-    .news-original-title {
-      font-size: 0.78rem; color: var(--muted); line-height: 1.4;
-      display: -webkit-box; -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical; overflow: hidden;
-      border-left: 2px solid var(--border); padding-left: 9px;
-      margin-top: 2px;
+
+    .card-content {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex-grow: 1;
     }
-    .news-card-footer {
-      margin-top: auto; padding-top: 14px;
-      border-top: 1px solid var(--border);
-      display: flex; align-items: center;
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .news-card:hover .card-title {
+      color: var(--primary-blue);
+    }
+
+    .card-summary {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.5;
+    }
+
+    .card-footer {
+      border-top: 1px solid #EDF2F7;
+      padding-top: 12px;
+      margin-top: auto;
+      display: flex;
       justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 500;
     }
-    .news-source-info { display: flex; flex-direction: column; gap: 2px; }
-    .news-source-label {
-      font-size: 0.7rem; color: var(--muted); font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.04em;
-    }
-    .news-channel-name { font-size: 0.75rem; color: var(--indigo); font-weight: 800; }
-    .news-read-link {
-      font-size: 0.82rem; font-weight: 800; color: var(--indigo);
-      display: flex; align-items: center; gap: 5px;
-    }
-    .news-read-link svg { width: 14px; height: 14px; transition: transform 0.2s; }
-    .news-card:hover .news-read-link svg { transform: translateX(4px); }
 
-    .news-loading-state {
-      grid-column: 1 / -1; text-align: center;
-      padding: 60px 20px; color: var(--muted);
+    .source-label {
+      color: var(--primary-blue);
+      font-weight: 700;
     }
-    .news-loading-spinner {
-      width: 36px; height: 36px; border: 3px solid var(--border);
-      border-top-color: var(--indigo); border-radius: 50%;
-      animation: spin 0.8s linear infinite; margin: 0 auto 14px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
 
-    .load-more-wrap { text-align: center; margin-top: 36px; }
+    /* PAGINATION LOAD MORE */
+    .load-more-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 50px 0 80px;
+    }
+
     .load-more-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--white); border: 1.5px solid var(--indigo);
-      color: var(--indigo); padding: 10px 28px; border-radius: 8px;
-      font-weight: 700; font-size: 0.88rem; cursor: pointer;
-      transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    .load-more-btn:hover { background: var(--indigo); color: #fff; }
-    .load-more-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    /* PRICING */
-    #pricing { background: linear-gradient(155deg, #EEF2FF 0%, #F5F7FF 100%); }
-
-    .pricing-grid {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 18px; margin-top: 36px; align-items: start;
-    }
-    .plan {
-      background: var(--white); border-radius: 16px; padding: 26px 22px;
-      border: 1.5px solid var(--border);
-      transition: box-shadow 0.2s, transform 0.2s;
-    }
-    .plan:hover { box-shadow: 0 8px 28px rgba(91,91,214,0.1); }
-    .plan.popular {
-      background: var(--indigo); border-color: var(--indigo);
-      box-shadow: 0 14px 40px rgba(91,91,214,0.28); transform: scale(1.02);
+      padding: 14px 40px;
+      background-color: var(--primary-blue);
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border-radius: 50px;
+      box-shadow: 0 4px 14px rgba(14, 82, 208, 0.25);
+      transition: var(--transition);
     }
 
-    .popular-badge {
-      background: #FFD700; color: #333;
-      font-size: 0.67rem; font-weight: 800;
-      padding: 3px 9px; border-radius: 50px;
-      display: inline-block; margin-bottom: 12px;
+    .load-more-btn:hover:not(:disabled) {
+      background-color: var(--primary-blue-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(14, 82, 208, 0.35);
     }
-    .plan-name { font-size: 1.15rem; font-weight: 800; color: var(--slate); margin-bottom: 5px; }
-    .plan.popular .plan-name { color: #fff; }
-    .plan-audience { font-size: 0.78rem; color: var(--muted); margin-bottom: 16px; min-height: 38px; line-height: 1.4; }
-    .plan.popular .plan-audience { color: rgba(255,255,255,0.7); }
 
-    .plan-price { font-size: 1.9rem; font-weight: 800; color: var(--indigo); letter-spacing: -1px; line-height: 1; }
-    .plan.popular .plan-price { color: #fff; }
-
-    .plan-period { font-size: 0.78rem; color: var(--muted); margin: 3px 0 16px; }
-    .plan.popular .plan-period { color: rgba(255,255,255,0.6); }
-
-    .plan-divider { height: 1px; background: var(--border); margin-bottom: 14px; }
-    .plan.popular .plan-divider { background: rgba(255,255,255,0.18); }
-
-    .plan-features { list-style: none; margin-bottom: 20px; display: flex; flex-direction: column; gap: 9px; }
-    .plan-features li { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--slate-mid); }
-    .plan.popular .plan-features li { color: rgba(255,255,255,0.88); }
-    .plan-features li::before {
-      content: "✓"; color: var(--indigo); font-weight: 800; font-size: 0.75rem;
-      width: 17px; height: 17px; border-radius: 50%;
-      background: var(--indigo-pale); flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
+    .load-more-btn:disabled {
+      background-color: #94A3B8;
+      cursor: not-allowed;
+      box-shadow: none;
     }
-    .plan.popular .plan-features li::before { color: var(--indigo); background: rgba(255,255,255,0.92); }
 
-    .plan-best {
-      font-size: 0.78rem; color: var(--muted);
-      margin-bottom: 20px; display: block; font-style: italic;
+    /* LOADING & ERROR STATES */
+    .news-loading-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--text-muted);
     }
-    .plan.popular .plan-best { color: rgba(255,255,255,0.8); }
 
-    .plan-btn {
-      display: block; text-align: center; padding: 10px;
-      border-radius: 8px; font-weight: 700; font-size: 0.88rem; transition: all 0.2s;
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--border-color);
+      border-top-color: var(--primary-blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
     }
-    .plan-btn-outline { border: 1.5px solid var(--indigo); color: var(--indigo); }
-    .plan-btn-outline:hover { background: var(--indigo); color: #fff; }
-    .plan-btn-solid { background: #fff; color: var(--indigo); }
-    .plan-btn-solid:hover { background: rgba(255,255,255,0.9); }
 
-    /* REGISTER */
-    #register { background: var(--white); }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
 
-    .register-layout {
-      display: grid; grid-template-columns: 1fr 1.5fr;
-      gap: 56px; align-items: start; margin-top: 36px;
+    /* 5. INTERACTIVE NEWS DETAILS MODAL */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(15, 30, 54, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 20px;
     }
-    .register-info p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 28px; }
 
-    .steps { display: flex; flex-direction: column; gap: 14px; }
-    .step-row { display: flex; align-items: flex-start; gap: 12px; }
-    .step-num {
-      width: 32px; height: 32px; border-radius: 50%;
-      background: var(--indigo); color: #fff;
-      font-weight: 800; font-size: 0.82rem; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
     }
-    .step-text strong { display: block; font-size: 0.88rem; color: var(--slate); }
-    .step-text span   { font-size: 0.8rem; color: var(--muted); }
 
-    .register-form-box {
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 16px; padding: 30px;
+    .modal-card {
+      background-color: #FFFFFF;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      overflow: hidden;
     }
-    .register-form-box h3 { font-size: 1rem; font-weight: 700; color: var(--slate); margin-bottom: 20px; }
 
-    form { display: flex; flex-direction: column; gap: 12px; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .form-group { display: flex; flex-direction: column; gap: 4px; }
-    label { font-size: 0.8rem; font-weight: 600; color: var(--slate-mid); }
+    .modal-overlay.open .modal-card {
+      transform: scale(1);
+    }
 
-    input, select, textarea {
-      padding: 9px 12px; border-radius: 8px;
-      border: 1.5px solid var(--border); background: var(--white);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.88rem; color: var(--slate);
-      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+      z-index: 10;
+      transition: var(--transition);
     }
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--indigo); box-shadow: 0 0 0 3px rgba(91,91,214,0.08);
-    }
-    textarea { resize: vertical; min-height: 78px; }
 
-    .submit-btn {
-      background: var(--indigo); color: #fff; border: none;
-      padding: 11px; border-radius: 8px; width: 100%;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 700; font-size: 0.92rem; cursor: pointer;
-      box-shadow: 0 4px 14px rgba(91,91,214,0.25);
-      transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+    .modal-close:hover {
+      background-color: var(--primary-blue);
+      color: #FFFFFF;
     }
-    .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 7px 20px rgba(91,91,214,0.35); }
-    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-    /* CTA BANNER */
-    #cta-banner {
-      background: var(--indigo); padding: 64px 6vw; text-align: center;
+    .modal-body {
+      overflow-y: auto;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
-    #cta-banner h2 { font-size: 1.75rem; font-weight: 800; color: #fff; margin-bottom: 9px; }
-    #cta-banner p  { color: rgba(255,255,255,0.72); margin-bottom: 26px; font-size: 0.93rem; }
-    .cta-btn-white {
-      display: inline-block; background: #fff; color: var(--indigo);
-      padding: 11px 26px; border-radius: 8px; font-weight: 700; font-size: 0.92rem;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.1); transition: transform 0.15s;
+
+    .modal-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-    .cta-btn-white:hover { transform: translateY(-2px); }
+
+    .modal-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.35;
+    }
+
+    .modal-img-wrap {
+      width: 100%;
+      max-height: 380px;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .modal-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-summary-content {
+      color: var(--text-main);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      white-space: pre-line;
+      background-color: #F8FAFC;
+      padding: 20px;
+      border-radius: var(--radius-md);
+      border-left: 4px solid var(--primary-blue);
+    }
+
+    .modal-footer {
+      border-top: 1px solid var(--border-color);
+      padding: 18px 30px;
+      display: flex;
+      justify-content: flex-end;
+      background-color: #F8FAFC;
+    }
+
+    .telegram-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #229ED9;
+      color: #FFFFFF;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 10px rgba(34, 158, 217, 0.25);
+      transition: var(--transition);
+    }
+
+    .telegram-btn:hover {
+      background-color: #1A81B3;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(34, 158, 217, 0.35);
+    }
 
     /* FOOTER */
     footer {
-      background: var(--slate); color: rgba(255,255,255,0.55);
-      padding: 24px 6vw; display: flex;
-      justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 12px;
+      background-color: var(--text-main);
+      color: #94A3B8;
+      padding: 30px 0;
+      border-top: 1px solid #1E2A45;
+      font-size: 0.88rem;
     }
-    .footer-logo { font-size: 1.05rem; font-weight: 800; color: #fff; }
-    .footer-links { display: flex; gap: 20px; }
-    .footer-links a { color: rgba(255,255,255,0.5); font-size: 0.82rem; transition: color 0.2s; }
-    .footer-links a:hover { color: #fff; }
-    .footer-copy { font-size: 0.75rem; }
 
-    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.55s ease, transform 0.55s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
 
-    /* MODAL */
-    .modal-overlay {
-      display: none; position: fixed; inset: 0; z-index: 999;
-      background: rgba(30,42,69,0.48); align-items: center; justify-content: center;
+    .footer-links {
+      display: flex;
+      gap: 24px;
     }
-    .modal-overlay.show { display: flex; }
-    .modal {
-      background: #fff; border-radius: 18px; padding: 36px 32px;
-      text-align: center; max-width: 380px; width: 90%;
-      box-shadow: 0 20px 56px rgba(0,0,0,0.16);
-      animation: popIn 0.28s cubic-bezier(0.34,1.56,0.64,1) both;
-    }
-    @keyframes popIn { from{opacity:0;transform:scale(0.85)} to{opacity:1;transform:scale(1)} }
-    .modal-icon { font-size: 2.6rem; margin-bottom: 10px; }
-    .modal h3 { font-size: 1.2rem; font-weight: 800; color: var(--slate); margin-bottom: 7px; }
-    .modal p { color: var(--muted); font-size: 0.87rem; line-height: 1.6; margin-bottom: 20px; }
-    .modal a { color: var(--indigo); }
-    .modal-close {
-      background: var(--indigo); color: #fff; border: none;
-      padding: 9px 24px; border-radius: 8px; font-weight: 700;
-      cursor: pointer; font-size: 0.88rem; transition: background 0.2s;
-    }
-    .modal-close:hover { background: var(--indigo-dark); }
 
-    @media (max-width: 1024px) {
-      .features-grid   { grid-template-columns: repeat(2,1fr); }
-      .register-layout { grid-template-columns: 1fr; gap: 28px; }
-    }
-    @media (max-width: 768px) {
-      .pricing-grid { grid-template-columns: 1fr; }
-      .plan.popular { transform: none; }
-      .form-row     { grid-template-columns: 1fr; }
-      .hero-title   { font-size: 2.2rem; }
-      .hero-stats   { flex-wrap: wrap; }
-      .stat         { min-width: 110px; flex: 1; }
-      footer        { flex-direction: column; text-align: center; gap: 24px; padding: 32px 6vw; }
-      .footer-links { flex-wrap: wrap; justify-content: center; gap: 16px; }
-    }
-    @media (max-width: 640px) {
-      .nav-links  { display: none; }
-      .hero-title { font-size: 1.8rem; }
-      .register-form-box { padding: 20px 16px; }
-      .footer-links { flex-direction: column; gap: 12px; }
-      #cta-banner { padding: 48px 6vw; }
-      #cta-banner h2 { font-size: 1.5rem; }
+    .footer-links a:hover {
+      color: #FFFFFF;
     }
   </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav id="navbar">
-  <a href="/" class="logo">Sado<span>Uz</span></a>
-  <ul class="nav-links">
-    <li><a href="#features">Xususiyatlar</a></li>
-    <li><a href="#live-news">Yangiliklar</a></li>
-    <li><a href="#pricing">Narxlar</a></li>
-    <li><a href="#register">Bog'lanish</a></li>
-  </ul>
-  <a href="#register" class="nav-cta">Boshlash →</a>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-bg">
-    <div class="hero-orb orb1"></div>
-    <div class="hero-orb orb2"></div>
-  </div>
-  <div class="hero-inner">
-    <div class="hero-badge"><span class="badge-dot"></span>Beta versiya ishga tushdi</div>
-    <h1 class="hero-title">Dunyo yangiliklari<br><em>3 soniyada</em> qo'lingizda</h1>
-    <p class="hero-sub">SadoUz — minglab manbalardan yangiliklarni yig'ib, AI yordamida o'zbek tiliga tarjima qiladi va sizning platformangizga avtomatik yetkazib beradi.</p>
-    <div class="hero-buttons">
-      <a href="#register" class="btn-primary">Bepul sinab ko'ring →</a>
-      <a href="#features" class="btn-ghost">Xususiyatlarni ko'ring</a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat"><div class="stat-num">200K+</div><div class="stat-lbl">Yangilik / kunlik</div></div>
-      <div class="stat"><div class="stat-num">1000+</div><div class="stat-lbl">Manbalar</div></div>
-      <div class="stat"><div class="stat-num">3 sek</div><div class="stat-lbl">Yetkazish vaqti</div></div>
-      <div class="stat"><div class="stat-num">B2B</div><div class="stat-lbl">API xizmati</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section id="features">
-  <div class="section-tag">Imkoniyatlar</div>
-  <h2 class="section-title">Nima uchun SadoUz?</h2>
-  <p class="section-sub">Jurnalist va kontent yaratuvchilarga soatlab sarflanadigan vaqtni tejang.</p>
-  <div class="features-grid reveal">
-    <div class="feature-card">
-      <div class="feature-icon">⚡</div>
-      <h4>Real vaqt yangiliklar</h4>
-      <p>Yangilik chiqishi bilan 3 soniya ichida sizga yetib boradi. Hech qanday kechikish yo'q.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🇺🇿</div>
-      <h4>O'zbek tili uchun maxsus AI</h4>
-      <p>O'zbek tilining grammatikasi va uslubiga moslashtirilgan tarjima modeli.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📂</div>
-      <h4>Aqlli kategoriyalash</h4>
-      <p>Siyosat, Iqtisodiyot, Sport, Texnologiya — barcha yangiliklar avtomatik tartiblangan.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📊</div>
-      <h4>Admin Panel</h4>
-      <p>Barcha yangiliklar, statistika va sozlamalar qulay boshqaruv panelida.</p>
-    </div>
-  </div>
-</section>
-
-<!-- LIVE NEWS -->
-<section id="live-news">
-  <div class="section-tag">📡 Telegram Yangiliklari</div>
-  <h2 class="section-title">Telegram kanallariga yuborilgan yangiliklar</h2>
-  <p class="section-sub">Faqat haqiqiy yetkazilgan xabarlar — sun'iy intellekt tayyorlagan bayonlar bilan.</p>
-
-  <div class="channel-filter-bar reveal" id="channelFilterBar">
-    <button class="ch-btn active" data-channel="" id="ch-all">
-      <span class="ch-icon">📋</span> Barchasi
-    </button>
-    <!-- Channels loaded dynamically -->
-  </div>
-
-  <div class="news-grid reveal" id="newsGrid">
-    <div class="news-loading-state" id="newsLoadingState">
-      <div class="news-loading-spinner"></div>
-      <div>Yangiliklar yuklanmoqda...</div>
-    </div>
-  </div>
-
-  <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
-    <button class="load-more-btn" id="loadMoreBtn">Ko'proq yuklash ↓</button>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section id="pricing">
-  <div class="section-tag">Narxlar</div>
-  <h2 class="section-title">O'zingizga mos paketni tanlang</h2>
-  <p class="section-sub">Kichik blogdan yirik OAV tizimigacha — har biri uchun paket bor.</p>
-  <div class="pricing-grid reveal">
-    {% for plan in plans %}
-    <div class="plan {% if plan.popular %}popular{% endif %}">
-      {% if plan.popular %}<div class="popular-badge">⭐ Eng mashhur</div>{% endif %}
-      <div class="plan-name">{{ plan.name }}</div>
-      <div class="plan-audience">{{ plan.target_audience }}</div>
-      <div class="plan-price">{{ plan.price }}</div>
-      <div class="plan-period">{{ plan.period }}</div>
-      <div class="plan-divider"></div>
-      <ul class="plan-features">
-        {% for feature in plan.features %}<li>{{ feature }}</li>{% endfor %}
-      </ul>
-      <div class="plan-best">✨ Mos keladi: {{ plan.best_for }}</div>
-      <div style="margin-top: auto;">
-        {% if plan.popular %}
-        <a href="#register" class="plan-btn plan-btn-solid">Hozir boshlash</a>
-        {% else %}
-        <a href="#register" class="plan-btn plan-btn-outline">Boshlash</a>
-        {% endif %}
+  <!-- 1. TOP UTILITY BAR -->
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+      <div class="live-indicator">
+        <span class="live-dot"></span> Canli yangiliklar oqimi
+      </div>
+      <div class="top-bar-right">
+        <div class="currency-widget">
+          <div class="currency-item">USD: <span id="usd-rate">12,860</span></div>
+          <div class="currency-item">EUR: <span id="eur-rate">13,920</span></div>
+          <div class="currency-item">RUB: <span id="rub-rate">142</span></div>
+        </div>
+        <div id="portal-date">Seshanba, 26-May, 2026</div>
       </div>
     </div>
-    {% endfor %}
   </div>
-</section>
 
-<!-- REGISTER -->
-<section id="register">
-  <div class="section-tag">Ro'yxatdan o'tish</div>
-  <h2 class="section-title">Hoziroq ro'yxatdan o'ting</h2>
-  <div class="register-layout">
-    <div class="register-info">
-      <p>Ariza qoldiring — jamoa siz bilan 24 soat ichida bog'lanadi va API kalitingizni yuboradi.</p>
-      <div class="steps">
-        <div class="step-row">
-          <div class="step-num">1</div>
-          <div class="step-text"><strong>Ma'lumotlaringizni kiriting</strong><span>Ism, email va platforma turini tanlang</span></div>
-        </div>
-        <div class="step-row">
-          <div class="step-num">2</div>
-          <div class="step-text"><strong>Paket tanlang</strong><span>Basic, Standard yoki Enterprise</span></div>
-        </div>
-        <div class="step-row">
-          <div class="step-num">3</div>
-          <div class="step-text"><strong>API kalitingizni oling</strong><span>va yangiliklar oqimiga ulanib oling</span></div>
-        </div>
+  <!-- 2. MAIN HEADER -->
+  <header>
+    <div class="container header-inner">
+      <a href="/" class="logo">
+        SADO<span>.UZ</span>
+      </a>
+      
+      <!-- Channels Navigation Bar -->
+      <nav class="channels-bar" id="channelBar">
+        <button class="filter-btn active" id="ch-all">BARCHASI</button>
+      </nav>
+
+      <!-- Sleek Search Bar -->
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Kalit so'z bo'yicha qidirish...">
+        <span class="search-clear" id="searchClear">&times;</span>
       </div>
     </div>
-    <div class="register-form-box">
-      <h3>Ariza yuborish</h3>
-      <form id="registerForm" data-url="{% url 'contact_submit' %}">
-        {% csrf_token %}
-        <div class="form-row">
-          <div class="form-group">
-            <label for="inp-name">Ism Familiya *</label>
-            <input type="text" id="inp-name" name="name" placeholder="Abdullayev Bobur" required>
-          </div>
-          <div class="form-group">
-            <label for="inp-company">Kompaniya / Platforma</label>
-            <input type="text" id="inp-company" name="company" placeholder="Kun.uz, Blog...">
-          </div>
+  </header>
+
+  <main class="container">
+    <!-- 3. EDITORIAL HERO SECTION (Featured & Sidebar) -->
+    <section class="editorial-hero" id="editorialHero" style="display: none;">
+      <!-- Left Column: Featured News (Automatically picks latest with image) -->
+      <div class="featured-story" id="featuredStory">
+        <div class="featured-img-wrap">
+          <img id="featuredImage" src="" alt="Featured Story">
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="inp-email">Email *</label>
-            <input type="email" id="inp-email" name="email" placeholder="siz@example.com" required>
+        <div class="featured-content">
+          <div class="featured-meta">
+            <span class="channel-pill" id="featuredChannel">Kun.uz</span>
+            <span class="news-time" id="featuredTime">17:16</span>
           </div>
-          <div class="form-group">
-            <label for="inp-phone">Telefon</label>
-            <input type="tel" id="inp-phone" name="phone" placeholder="+998 90 811 80 85">
-          </div>
+          <h2 class="featured-title" id="featuredTitle">Kutilmoqda...</h2>
+          <p class="featured-summary" id="featuredSummary">Yangilik tafsilotlari yuklanmoqda.</p>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="inp-platform">Platforma turi</label>
-            <select id="inp-platform" name="platform">
-              <option value="">Tanlang...</option>
-              <option value="telegram">Telegram kanal</option>
-              <option value="website">Vebsayt / CMS</option>
-              <option value="mobile">Mobil ilova</option>
-              <option value="youtube">YouTube kanal</option>
-              <option value="other">Boshqa</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="inp-plan">Paket</label>
-            <select id="inp-plan" name="plan">
-              <option value="starter">Starter — 370,000 so'm/oy</option>
-              <option value="growth" selected>Growth — 1,000,000 so'm/oy</option>
-              <option value="business">Business — 2,500,000 so'm/oy</option>
-            </select>
-          </div>
+      </div>
+
+      <!-- Right Column: Latest Headlines -->
+      <div class="latest-sidebar">
+        <h3 class="sidebar-header">
+          <span class="live-dot" style="margin-right: 6px;"></span> So'nggi xabarlar
+        </h3>
+        <div class="sidebar-list" id="sidebarList">
+          <!-- Dynamic sidebar items -->
         </div>
-        <div class="form-group">
-          <label for="inp-message">Qo'shimcha ma'lumot</label>
-          <textarea id="inp-message" name="message" placeholder="Loyihangiz haqida qisqacha yozing..."></textarea>
+      </div>
+    </section>
+
+    <!-- 4. MAIN NEWS SECTION -->
+    <div class="section-title">
+      <span id="sectionHeadline">Barcha yangiliklar</span>
+    </div>
+
+    <section class="news-grid" id="newsGrid">
+      <div class="news-loading-state" id="newsLoadingState">
+        <div class="loading-spinner"></div>
+        <div>Yangiliklar yuklanmoqda...</div>
+      </div>
+    </section>
+
+    <!-- Pagination -->
+    <div class="load-more-wrap" id="loadMoreWrap" style="display: none;">
+      <button class="load-more-btn" id="loadMoreBtn">Ko'proq yuklash</button>
+    </div>
+  </main>
+
+  <!-- 5. INTERACTIVE NEWS DETAILS MODAL -->
+  <div class="modal-overlay" id="newsModal">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <div class="modal-body">
+        <div class="modal-meta">
+          <span class="channel-pill" id="modalChannel">📢 KANAL</span>
+          <span class="news-time" id="modalTime">26-May, 17:16</span>
         </div>
-        <button type="submit" class="submit-btn" id="submitBtn">Ariza yuborish →</button>
-      </form>
+        <h2 class="modal-title" id="modalTitle">Sarlavha yuklanmoqda</h2>
+        <div class="modal-img-wrap" id="modalImgWrap" style="display: none;">
+          <img id="modalImage" src="" alt="News Image">
+        </div>
+        <div class="modal-summary-content" id="modalSummary">
+          Bayon matni yuklanmoqda.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" target="_blank" class="telegram-btn" id="modalTelegramLink">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send" style="transform: rotate(45deg); margin-right: 4px;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          Telegramda o'qish
+        </a>
+      </div>
     </div>
   </div>
-</section>
 
-<!-- CTA BANNER -->
-<section id="cta-banner">
-  <h2>Yangiliklar oqimidan orqada qolmang</h2>
-  <p>Har kuni 200,000+ yangilik — barchasi o'zbek tilida, barchasi avtomatik.</p>
-  <a href="#register" class="cta-btn-white">Bepul boshlash →</a>
-</section>
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-inner">
+      <div>&copy; 2026 Sado.uz. Barcha huquqlar himoyalangan.</div>
+      <div class="footer-links">
+        <a href="/oferta/">Foydalanish shartlari</a>
+        <a href="/privacy/">Maxfiylik siyosati</a>
+      </div>
+    </div>
+  </footer>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">SadoUz</div>
-  <div class="footer-links">
-    <a href="#features">Xususiyatlar</a>
-    <a href="#pricing">Narxlar</a>
-    <a href="#register">Bog'lanish</a>
-    <a href="{% url 'oferta' %}">Ommaviy oferta</a>
-    <a href="{% url 'privacy' %}">Maxfiylik siyosati</a>
-    <a href="mailto:info@sadouz.uz">info@sadouz.uz</a>
-    <a href="tel:+998908118085">+998 90 811 80 85</a>
-  </div>
-  <div class="footer-copy">© 2026 SadoUz. Barcha huquqlar himoyalangan.</div>
-</footer>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <div class="modal-icon">🎉</div>
-    <h3>Ariza qabul qilindi!</h3>
-    <p>24 soat ichida jamoa siz bilan bog'lanadi.<br><a href="mailto:info@sadouz.uz">info@sadouz.uz</a> orqali ham murojaat qilishingiz mumkin.</p>
-    <button class="modal-close" id="modalClose">Tushundim!</button>
-  </div>
-</div>
-
-<!-- JAVASCRIPT -->
-<script>
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', function () { navbar.classList.toggle('scrolled', window.scrollY > 10); });
-
-  const secs = document.querySelectorAll('section[id]');
-  const nls  = document.querySelectorAll('.nav-links a');
-  window.addEventListener('scroll', function () {
-    let cur = '';
-    secs.forEach(function (s) { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
-    nls.forEach(function (a)  { a.classList.toggle('active', a.getAttribute('href') === '#' + cur); });
-  });
-
-  const obs = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(function (el) { obs.observe(el); });
-
-  const overlay  = document.getElementById('modalOverlay');
-  const closeBtn = document.getElementById('modalClose');
-  function showModal() { overlay.classList.add('show'); document.body.style.overflow = 'hidden'; }
-  function hideModal() { overlay.classList.remove('show'); document.body.style.overflow = ''; }
-  closeBtn.addEventListener('click', hideModal);
-  overlay.addEventListener('click', function (e) { if (e.target === overlay) hideModal(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hideModal(); });
-
-  const form      = document.getElementById('registerForm');
-  const submitBtn = document.getElementById('submitBtn');
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Yuborilmoqda...';
-    setTimeout(function () {
-      showModal(); form.reset();
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Ariza yuborish';
-    }, 600);
-  });
-
-  (function () {
-    const p = new URLSearchParams(window.location.search).get('plan');
-    if (p) { const o = document.querySelector('#inp-plan option[value="' + p + '"]'); if (o) o.selected = true; }
-  })();
-
-  // Live News Feed
-  const newsGrid     = document.getElementById('newsGrid');
-  const loadingState = document.getElementById('newsLoadingState');
-  const loadMoreWrap = document.getElementById('loadMoreWrap');
-  const loadMoreBtn  = document.getElementById('loadMoreBtn');
-  const channelBar   = document.getElementById('channelFilterBar');
-
-  let currentChannelId = '';
-  let currentOffset    = 0;
-  let isLoading        = false;
-
-  function formatDate(dateStr) {
-    if (!dateStr) return '';
-    try {
-      const d = new Date(dateStr);
-      return d.toLocaleDateString('uz-UZ', { day: 'numeric', month: 'short', year: 'numeric' });
-    } catch(e) { return dateStr; }
-  }
-
-  function getTelegramLink(item) {
-    if (!item.channel_id || !item.message_id) return item.url || '#';
-    let cid = item.channel_id.toString();
-    if (cid.startsWith('-100')) cid = cid.substring(4);
-    else if (cid.startsWith('-')) cid = cid.substring(1);
-    return 'https://t.me/c/' + cid + '/' + item.message_id;
-  }
-
-  function buildCard(item) {
-    const card = document.createElement('a');
-    card.className = 'news-card';
-    card.href = getTelegramLink(item);
-    card.target = '_blank';
-    card.rel = 'noopener noreferrer';
-    const summary = item.summary_text || 'Bayoni yuklanmoqda...';
-    const title   = item.title ? '<p class="news-original-title">' + item.title + '</p>' : '';
-    card.innerHTML =
-      '<div class="news-card-top">' +
-        '<span class="news-date">' + formatDate(item.published_date) + '</span>' +
-      '</div>' +
-      '<p class="news-summary">' + summary + '</p>' +
-      title +
-      '<div class="news-card-footer">' +
-        '<div class="news-source-info">' +
-          '<span class="news-source-label">' + (item.source || '') + '</span>' +
-          '<span class="news-channel-name">📢 ' + (item.channel_name || 'Kanal') + '</span>' +
-        '</div>' +
-        '<span class="news-read-link">O\'qish ' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
-            '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>' +
-          '</svg>' +
-        '</span>' +
-      '</div>';
-    return card;
-  }
-
-  function fetchNews(channelId, offset, append) {
-    if (isLoading) return;
-    isLoading = true;
-    if (!append) {
-      newsGrid.innerHTML = '';
-      newsGrid.appendChild(loadingState);
-      loadingState.style.display = 'block';
-      loadMoreWrap.style.display = 'none';
-    } else {
-      loadMoreBtn.disabled = true;
-      loadMoreBtn.textContent = 'Yuklanmoqda...';
+  <script>
+    // System date in Uzbek
+    function displayUzbekDate() {
+      const days = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
+      const months = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentabr", "Oktabr", "Noyabr", "Dekabr"];
+      const date = new Date();
+      const dateString = days[date.getDay()] + ", " + date.getDate() + "-" + months[date.getMonth()] + ", " + date.getFullYear();
+      document.getElementById('portal-date').textContent = dateString;
     }
-    let url = '/api/news/?offset=' + offset;
-    if (channelId) url += '&channel_id=' + encodeURIComponent(channelId);
-    fetch(url)
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        loadingState.style.display = 'none';
-        isLoading = false;
-        if (data.status === 'ok') {
-          if (data.news.length === 0 && !append) {
-            newsGrid.innerHTML = '<div class="news-loading-state" style="grid-column:1/-1"><div style="font-size:2.5rem;margin-bottom:12px">📭</div><div>Hozircha yetkazilgan yangiliklar yo\'q.</div></div>';
-          } else {
-            data.news.forEach(function(item) { newsGrid.appendChild(buildCard(item)); });
-          }
-          loadMoreWrap.style.display = data.has_more ? 'block' : 'none';
-          loadMoreBtn.disabled = false;
-          loadMoreBtn.textContent = "Ko'proq yuklash";
-        } else if (!append) {
-          newsGrid.innerHTML = '<div class="news-loading-state" style="grid-column:1/-1;color:#e55;">Xatolik: ' + data.message + '</div>';
-        }
-      })
-      .catch(function(err) {
-        isLoading = false;
-        loadingState.style.display = 'none';
-        if (!append) newsGrid.innerHTML = '<div class="news-loading-state" style="grid-column:1/-1;color:#e55;">Server bilan ulanishda xatolik.</div>';
-        console.error(err);
+    displayUzbekDate();
+
+    // Exchange rate random micro-fluctuations (for dynamic realism)
+    function simulateCurrencyExchange() {
+      const usd = 12850 + Math.floor(Math.random() * 20) - 10;
+      const eur = 13910 + Math.floor(Math.random() * 26) - 13;
+      document.getElementById('usd-rate').textContent = usd.toLocaleString('uz-UZ');
+      document.getElementById('eur-rate').textContent = eur.toLocaleString('uz-UZ');
+    }
+    simulateCurrencyExchange();
+    setInterval(simulateCurrencyExchange, 60000);
+
+    // Global state
+    let allFetchedNews = [];
+    let currentChannelId = '';
+    let currentOffset = 0;
+    let isLoading = false;
+
+    // Elements
+    const channelBar = document.getElementById('channelBar');
+    const newsGrid = document.getElementById('newsGrid');
+    const loadingState = document.getElementById('newsLoadingState');
+    const loadMoreWrap = document.getElementById('loadMoreWrap');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    const searchInput = document.getElementById('searchInput');
+    const searchClear = document.getElementById('searchClear');
+    const editorialHero = document.getElementById('editorialHero');
+    const sectionHeadline = document.getElementById('sectionHeadline');
+
+    // Modal elements
+    const newsModal = document.getElementById('newsModal');
+    const modalClose = document.getElementById('modalClose');
+    const modalChannel = document.getElementById('modalChannel');
+    const modalTime = document.getElementById('modalTime');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalImgWrap = document.getElementById('modalImgWrap');
+    const modalImage = document.getElementById('modalImage');
+    const modalSummary = document.getElementById('modalSummary');
+    const modalTelegramLink = document.getElementById('modalTelegramLink');
+
+    // Format ISO string date beautifully
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      try {
+        const date = new Date(dateStr);
+        if (isNaN(date.getTime())) return dateStr;
+        
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        
+        return `${hours}:${minutes} | ${day}.${month}.${date.getFullYear()}`;
+      } catch (e) {
+        return dateStr;
+      }
+    }
+
+    // Build regular news card element
+    function buildCard(item) {
+      const card = document.createElement('div');
+      card.className = 'news-card';
+      
+      let imgContent = '';
+      if (item.has_image && item.image_url) {
+        imgContent = `<img src="${item.image_url}" alt="${item.title || 'Yangilik'}">`;
+      } else {
+        // Aesthetic SVG channel letter emblem
+        const initial = (item.channel_name || '📢').charAt(0).toUpperCase();
+        imgContent = `<div class="card-img-placeholder">${initial}</div>`;
+      }
+
+      card.innerHTML = `
+        <div class="card-img-wrap">
+          ${imgContent}
+        </div>
+        <div class="card-content">
+          <div class="card-meta">
+            <span class="channel-pill">📢 ${item.channel_name || 'Telegram'}</span>
+            <span class="news-time">${formatDate(item.published_date)}</span>
+          </div>
+          <h3 class="card-title">${item.title || 'Sarlavhasiz'}</h3>
+          <p class="card-summary">${item.summary_text || ''}</p>
+          <div class="card-footer">
+            <span>Manba: <span class="source-label">${item.source || 'Telegram'}</span></span>
+            <span>Batafsil &rarr;</span>
+          </div>
+        </div>
+      `;
+
+      card.addEventListener('click', function() {
+        openNewsModal(item);
       });
-  }
 
-  function loadChannels() {
-    fetch('/api/channels/')
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        if (data.status === 'ok' && data.channels.length > 0) {
-          data.channels.forEach(function(ch) {
-            const btn = document.createElement('button');
-            btn.className = 'ch-btn';
-            btn.dataset.channelId = ch.channel_id;
-            btn.innerHTML = '<span class="ch-icon">📢</span> ' + ch.name;
-            btn.addEventListener('click', function () {
-              document.querySelectorAll('.ch-btn').forEach(function(b) { b.classList.remove('active'); });
-              this.classList.add('active');
-              currentChannelId = this.dataset.channelId;
-              currentOffset = 0;
-              fetchNews(currentChannelId, 0, false);
-            });
-            channelBar.appendChild(btn);
-          });
+      return card;
+    }
+
+    // Build sidebar item
+    function buildSidebarItem(item) {
+      const div = document.createElement('div');
+      div.className = 'sidebar-item';
+      
+      const timeStr = item.published_date ? formatDate(item.published_date).split(' | ')[0] : 'Yangi';
+      
+      div.innerHTML = `
+        <div class="sidebar-meta">
+          <span class="sidebar-channel">📢 ${item.channel_name || 'Telegram'}</span>
+          <span class="sidebar-time">${timeStr}</span>
+        </div>
+        <div class="sidebar-title">${item.title || 'Sarlavhasiz'}</div>
+      `;
+
+      div.addEventListener('click', function() {
+        openNewsModal(item);
+      });
+
+      return div;
+    }
+
+    // Open Interactive Modal
+    function openNewsModal(item) {
+      modalChannel.textContent = `📢 ${item.channel_name || 'Telegram'}`;
+      modalTime.textContent = formatDate(item.published_date);
+      modalTitle.textContent = item.title || 'Sarlavhasiz';
+      modalSummary.textContent = item.summary_text || 'Tafsilotlar mavjud emas.';
+      
+      // Determine final link to source
+      let telegramLink = 'https://t.me/';
+      if (item.channel_id) {
+        // Resolve channel link
+        let cleanId = item.channel_id.toString().replace('-100', '');
+        telegramLink = `https://t.me/c/${cleanId}/${item.message_id || '1'}`;
+      } else {
+        telegramLink = item.url || '#';
+      }
+      modalTelegramLink.href = telegramLink;
+
+      if (item.has_image && item.image_url) {
+        modalImage.src = item.image_url;
+        modalImgWrap.style.display = 'block';
+      } else {
+        modalImgWrap.style.display = 'none';
+      }
+
+      newsModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close Modal
+    function closeNewsModal() {
+      newsModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', closeNewsModal);
+    newsModal.addEventListener('click', function(e) {
+      if (e.target === newsModal) closeNewsModal();
+    });
+
+    // Render Editorial Hero + News Grid with filter and search
+    function renderPortalContent(offset, append) {
+      const query = searchInput.value.trim().toLowerCase();
+      
+      // 1. Apply search query on local page if search active
+      let filtered = allFetchedNews;
+      if (query.length > 0) {
+        filtered = allFetchedNews.filter(function(item) {
+          const summary = (item.summary_text || '').toLowerCase();
+          const title = (item.title || '').toLowerCase();
+          const channel = (item.channel_name || '').toLowerCase();
+          const source = (item.source || '').toLowerCase();
+          return summary.includes(query) || title.includes(query) || channel.includes(query) || source.includes(query);
+        });
+      }
+
+      if (filtered.length === 0) {
+        if (!append) {
+          newsGrid.innerHTML = `
+            <div class="news-loading-state" style="grid-column: 1 / -1; padding: 80px 20px;">
+              <div style="font-size: 3rem;">📭</div>
+              <div style="font-weight: 700; font-size: 1.25rem;">Birorta ham yangilik topilmadi</div>
+              <div>Qidiruv so'zini o'zgartirib ko'ring yoki boshqa kanallarni tanlang.</div>
+            </div>
+          `;
+          editorialHero.style.display = 'none';
         }
-      })
-      .catch(function(err) { console.error('Channels error:', err); });
-  }
+        return;
+      }
 
-  document.getElementById('ch-all').addEventListener('click', function () {
-    document.querySelectorAll('.ch-btn').forEach(function(b) { b.classList.remove('active'); });
-    this.classList.add('active');
-    currentChannelId = '';
-    currentOffset = 0;
+      // 2. Build layout components for Page 1 (offset = 0 and no search queries active)
+      if (offset === 0 && query.length === 0 && !currentChannelId) {
+        editorialHero.style.display = 'grid';
+        sectionHeadline.textContent = "Barcha yangiliklar";
+
+        // Find featured news (latest that HAS image)
+        let featuredIndex = filtered.findIndex(item => item.has_image === true);
+        if (featuredIndex === -1) featuredIndex = 0; // fallback to very first if no images
+
+        const featuredItem = filtered[featuredIndex];
+        
+        // Render Featured Story Card
+        const featuredImg = document.getElementById('featuredImage');
+        if (featuredItem.has_image && featuredItem.image_url) {
+          featuredImg.src = featuredItem.image_url;
+          featuredImg.parentElement.style.display = 'block';
+        } else {
+          // hidden or pattern
+          featuredImg.parentElement.style.display = 'none';
+        }
+
+        document.getElementById('featuredChannel').textContent = `📢 ${featuredItem.channel_name || 'Telegram'}`;
+        document.getElementById('featuredTime').textContent = formatDate(featuredItem.published_date);
+        document.getElementById('featuredTitle').textContent = featuredItem.title || 'Sarlavhasiz';
+        document.getElementById('featuredSummary').textContent = featuredItem.summary_text || '';
+        
+        // Attach click open
+        const fs = document.getElementById('featuredStory');
+        // Clear previous listener if any by cloning
+        const newFs = fs.cloneNode(true);
+        fs.parentNode.replaceChild(newFs, fs);
+        newFs.addEventListener('click', function() {
+          openNewsModal(featuredItem);
+        });
+
+        // Get sidebar elements (recent 5 items, excluding the featured one)
+        const sidebarList = document.getElementById('sidebarList');
+        sidebarList.innerHTML = '';
+        
+        let sidebarCount = 0;
+        let mainGridIndexStart = 0;
+
+        filtered.forEach(function(item, idx) {
+          if (idx === featuredIndex) return; // skip featured
+          if (sidebarCount < 5) {
+            sidebarList.appendChild(buildSidebarItem(item));
+            sidebarCount++;
+          }
+        });
+
+        // 3. Render remaining articles in Main News Grid
+        newsGrid.innerHTML = '';
+        let itemsRendered = 0;
+        filtered.forEach(function(item, idx) {
+          if (idx === featuredIndex) return; // skip featured
+          if (idx < sidebarCount + (featuredIndex < sidebarCount ? 1 : 0)) return; // skip sidebar items
+          newsGrid.appendChild(buildCard(item));
+          itemsRendered++;
+        });
+
+        if (itemsRendered === 0) {
+          newsGrid.innerHTML = `<div class="news-loading-state" style="grid-column: 1 / -1; font-style: italic;">Qolgan yangiliklar keyingi sahifada.</div>`;
+        }
+
+      } else {
+        // If we are searching, paginating, or filtering by a specific channel, hide the massive hero editorial and show everything in a grid
+        editorialHero.style.display = 'none';
+        
+        if (query.length > 0) {
+          sectionHeadline.textContent = `Qidiruv natijalari: "${searchInput.value}" (${filtered.length})`;
+        } else if (currentChannelId) {
+          sectionHeadline.textContent = `Kanal yangiliklari: ${filtered[0]?.channel_name || 'Tanlangan'}`;
+        } else {
+          sectionHeadline.textContent = "Barcha yangiliklar";
+        }
+
+        if (!append) {
+          newsGrid.innerHTML = '';
+        }
+
+        filtered.forEach(function(item) {
+          newsGrid.appendChild(buildCard(item));
+        });
+      }
+    }
+
+    // Fetch News from Backend
+    function fetchNews(channelId, offset, append) {
+      if (isLoading) return;
+      isLoading = true;
+
+      if (!append) {
+        newsGrid.innerHTML = '';
+        newsGrid.appendChild(loadingState);
+        loadingState.style.display = 'flex';
+        loadMoreWrap.style.display = 'none';
+        editorialHero.style.display = 'none';
+      } else {
+        loadMoreBtn.disabled = true;
+        loadMoreBtn.textContent = 'Yuklanmoqda...';
+      }
+
+      let url = `/api/news/?offset=${offset}`;
+      if (channelId) url += `&channel_id=${encodeURIComponent(channelId)}`;
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          loadingState.style.display = 'none';
+          isLoading = false;
+
+          if (data.status === 'ok') {
+            if (append) {
+              allFetchedNews = allFetchedNews.concat(data.news);
+            } else {
+              allFetchedNews = data.news;
+            }
+
+            renderPortalContent(offset, append);
+
+            loadMoreWrap.style.display = data.has_more ? 'flex' : 'none';
+            loadMoreBtn.disabled = false;
+            loadMoreBtn.textContent = "Ko'proq yuklash";
+          } else {
+            if (!append) {
+              newsGrid.innerHTML = `<div class="news-loading-state" style="grid-column: 1 / -1; color: var(--live-red);">Xatolik yuz berdi: ${data.message}</div>`;
+            }
+          }
+        })
+        .catch(err => {
+          isLoading = false;
+          loadingState.style.display = 'none';
+          if (!append) {
+            newsGrid.innerHTML = `<div class="news-loading-state" style="grid-column: 1 / -1; color: var(--live-red);">Server bilan ulanib bo'lmadi.</div>`;
+          }
+          console.error(err);
+        });
+    }
+
+    // Fetch Channels
+    function fetchChannels() {
+      fetch('/api/channels/')
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === 'ok' && data.channels.length > 0) {
+            data.channels.forEach(ch => {
+              const btn = document.createElement('button');
+              btn.className = 'filter-btn';
+              btn.dataset.channelId = ch.channel_id;
+              btn.textContent = ch.name.toUpperCase();
+              
+              btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentChannelId = this.dataset.channelId;
+                currentOffset = 0;
+                fetchNews(currentChannelId, 0, false);
+              });
+              
+              channelBar.appendChild(btn);
+            });
+          }
+        })
+        .catch(err => console.error('Channels list fetch error:', err));
+    }
+
+    // Listen to Search Inputs
+    searchClear.addEventListener('click', function() {
+      searchInput.value = '';
+      searchClear.style.display = 'none';
+      renderPortalContent(currentOffset, false);
+    });
+
+    searchInput.addEventListener('input', function() {
+      searchClear.style.display = this.value.trim().length > 0 ? 'block' : 'none';
+      renderPortalContent(currentOffset, false);
+    });
+
+    document.getElementById('ch-all').addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      currentChannelId = '';
+      currentOffset = 0;
+      fetchNews('', 0, false);
+    });
+
+    loadMoreBtn.addEventListener('click', function() {
+      currentOffset += 12;
+      fetchNews(currentChannelId, currentOffset, true);
+    });
+
+    // Boot up
+    fetchChannels();
     fetchNews('', 0, false);
-  });
-
-  loadMoreBtn.addEventListener('click', function () {
-    currentOffset += 12;
-    fetchNews(currentChannelId, currentOffset, true);
-  });
-
-  loadChannels();
-  fetchNews('', 0, false);
-</script>
-
+  </script>
 </body>
 </html>

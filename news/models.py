@@ -39,6 +39,23 @@ class Article(models.Model):
         return self.title or "Sarlavhasiz"
 
 
+class ArticleImage(models.Model):
+    image = models.BinaryField(verbose_name="Rasm")
+    article = models.ForeignKey(
+        Article, on_delete=models.CASCADE,
+        db_column='article_id', related_name='images'
+    )
+
+    class Meta:
+        managed = False
+        db_table = 'apps_articleimage'
+        verbose_name = "Maqola rasmi"
+        verbose_name_plural = "Maqola rasmlari"
+
+    def __str__(self):
+        return f"Image for Article #{self.article_id}"
+
+
 class Summary(models.Model):
     """
     Real DB structure:
