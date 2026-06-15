@@ -1,531 +1,308 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ommaviy Oferta — SadoUz</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ommaviy Oferta — Sado.uz</title>
+  <meta name="description" content="Sado.uz sayt xizmatlaridan foydalanish bo'yicha rasmiy qoidalar va shartlar.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #4F46E5;
-      --primary-hover: #4338CA;
-      --primary-light: #EEF2FF;
-      --surface-100: #FFFFFF;
-      --surface-200: #F8FAFC;
-      --surface-300: #F1F5F9;
-      --text-main: #0F172A;
-      --text-muted: #475569;
-      --text-light: #94A3B8;
-      --border-color: #E2E8F0;
-      --accent: #0EA5E9;
-      --accent-light: #E0F2FE;
-      
-      /* Spacing & Layout */
-      --max-w: 1280px;
-      --nav-height: 60px;
+      --bg: #07070b; --bg-tint: #0b0b11; --surface: #121219; --surface-2: #1a1a24;
+      --border: #24242f; --border-strong: #32323f;
+      --text: #f3f4f9; --text-muted: #a2a5b4; --text-faint: #6c6f80;
+      --primary: #6d5cf5; --primary-700: #bcb2ff; --primary-soft: #1a1733;
+      --accent: #a855f7; --success: #2fd07a;
+      --r: 12px; --r-lg: 16px; --r-xl: 22px; --r-pill: 999px;
+      --shadow-primary: 0 10px 30px rgba(109,92,245,.45);
+      --shadow: 0 6px 20px rgba(0,0,0,.55);
+      --maxw: 1180px;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    html { scroll-behavior: smooth; font-size: 16px; }
-    
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: var(--surface-200);
-      color: var(--text-main);
-      line-height: 1.75;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; -webkit-font-smoothing: antialiased; }
+    a { text-decoration: none; color: inherit; }
+    ::selection { background: rgba(109,92,245,.35); }
+    *::-webkit-scrollbar { width: 8px; } *::-webkit-scrollbar-thumb { background: #2c2c3a; border-radius: 99px; }
 
-    a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
+    /* Progress bar */
+    .progress-container { position: fixed; top: 64px; left: 0; width: 100%; height: 3px; z-index: 99; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); width: 0; transition: width .1s; }
 
-    /* --- Navigation --- */
-    #navbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5vw; height: var(--nav-height);
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: saturate(180%) blur(20px);
-      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-    }
-    .logo { 
-      font-size: 1.35rem; font-weight: 800; color: var(--primary); 
-      letter-spacing: -0.5px; display: flex; align-items: center; gap: 6px;
-    }
-    .logo span { color: var(--text-main); }
-    
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a { 
-      color: var(--text-muted); font-size: 0.95rem; font-weight: 600; 
-    }
-    .nav-links a:hover { color: var(--primary); }
+    /* Navbar */
+    .site-nav { position: sticky; top: 0; z-index: 100; background: rgba(7,7,11,.8); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -.02em; }
+    .brand-mark { width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(135deg, var(--primary), var(--accent)); display: grid; place-items: center; box-shadow: var(--shadow-primary); }
+    .brand-mark svg { width: 16px; height: 16px; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 600; color: var(--text-faint); transition: color .15s; }
+    .nav-links a:hover { color: var(--primary-700); }
 
-    /* --- Header --- */
-    .page-header {
-      position: relative;
-      padding: calc(var(--nav-height) + 80px) 5vw 80px;
-      background: var(--surface-100);
-      text-align: center;
-      border-bottom: 1px solid var(--border-color);
-      overflow: hidden;
-    }
-    
-    /* Elegant background pattern */
-    .header-bg {
-      position: absolute; inset: 0; z-index: 0; opacity: 0.5;
-      background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
-      background-size: 32px 32px;
-      mask-image: linear-gradient(to bottom, black, transparent);
-      -webkit-mask-image: linear-gradient(to bottom, black, transparent);
-    }
+    /* Page header */
+    .page-header { position: relative; padding: 72px 24px 64px; text-align: center; border-bottom: 1px solid var(--border); overflow: hidden; }
+    .page-header::before { content: ''; position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 700px; height: 400px; border-radius: 50%; background: radial-gradient(ellipse, rgba(109,92,245,.1) 0%, transparent 70%); pointer-events: none; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 7px; padding: 5px 14px; background: var(--primary-soft); color: var(--primary-700); font-size: 11.5px; font-weight: 700; border-radius: var(--r-pill); margin-bottom: 20px; letter-spacing: .06em; text-transform: uppercase; }
+    .page-h1 { font-family: 'Space Grotesk', sans-serif; font-size: 3rem; font-weight: 700; letter-spacing: -.04em; line-height: 1.1; margin-bottom: 16px; }
+    .page-sub { color: var(--text-muted); font-size: 1.05rem; max-width: 500px; margin: 0 auto; }
 
-    .header-content { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
-    
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 16px; background: var(--primary-light);
-      color: var(--primary); font-size: 0.8rem; font-weight: 700;
-      border-radius: 100px; margin-bottom: 24px;
-      letter-spacing: 0.05em; text-transform: uppercase;
-    }
-    .eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+    /* Layout */
+    .layout { display: grid; grid-template-columns: 260px 1fr; gap: 52px; max-width: var(--maxw); margin: 52px auto; padding: 0 24px; align-items: start; }
+    @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .sidebar { position: static !important; } }
 
-    .page-title { 
-      font-size: 3.5rem; font-weight: 800; color: var(--text-main); 
-      margin-bottom: 20px; letter-spacing: -1.5px; line-height: 1.1;
-    }
-    .page-sub { 
-      color: var(--text-muted); font-size: 1.15rem; 
-      max-width: 500px; margin: 0 auto;
-    }
+    /* Sidebar */
+    .sidebar { position: sticky; top: 90px; }
+    .sidebar-title { font-size: 10.5px; font-weight: 700; color: var(--text-faint); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 16px; padding-left: 14px; }
+    .sidebar-nav { list-style: none; display: flex; flex-direction: column; gap: 2px; border-left: 1px solid var(--border); }
+    .sidebar-nav a { display: block; padding: 8px 14px; margin-left: -1px; font-size: 13.5px; font-weight: 500; color: var(--text-faint); border-left: 2px solid transparent; transition: all .15s; }
+    .sidebar-nav a:hover { color: var(--text-muted); }
+    .sidebar-nav a.active { color: var(--primary-700); font-weight: 600; border-left-color: var(--primary); }
 
-    /* --- Main Layout --- */
-    .layout-wrapper {
-      display: grid; grid-template-columns: 280px 1fr; gap: 64px;
-      max-width: var(--max-w); margin: 64px auto; padding: 0 5vw;
-      align-items: start;
-    }
-
-    /* --- Sidebar --- */
-    .sidebar {
-      position: sticky; top: calc(var(--nav-height) + 40px);
-    }
-    .sidebar-title { 
-      font-size: 0.75rem; font-weight: 700; color: var(--text-light); 
-      text-transform: uppercase; letter-spacing: 0.1em; 
-      margin-bottom: 20px; padding-left: 16px;
-    }
-    .sidebar-nav { list-style: none; display: flex; flex-direction: column; gap: 4px; border-left: 1px solid var(--border-color); }
-    .sidebar-nav a {
-      display: block; padding: 8px 16px; margin-left: -1px;
-      font-size: 0.9rem; font-weight: 500; color: var(--text-muted);
-      border-left: 2px solid transparent;
-    }
-    .sidebar-nav a:hover { color: var(--text-main); }
-    .sidebar-nav a.active { 
-      color: var(--primary); font-weight: 600; 
-      border-left-color: var(--primary);
-    }
-
-    /* --- Content --- */
-    .content-area {
-      background: var(--surface-100);
-      border: 1px solid var(--border-color);
-      border-radius: 24px;
-      padding: 64px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-    }
-
-    .section { margin-bottom: 56px; }
+    /* Content */
+    .content-area { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 52px; box-shadow: var(--shadow); }
+    @media (max-width: 680px) { .content-area { padding: 28px 22px; } }
+    .section { margin-bottom: 48px; }
     .section:last-child { margin-bottom: 0; }
+    .section-number { font-size: 11px; font-weight: 700; color: var(--primary); margin-bottom: 6px; display: block; letter-spacing: .06em; font-family: 'Space Grotesk', sans-serif; }
+    .section h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700; letter-spacing: -.025em; line-height: 1.28; margin-bottom: 18px; }
+    .section p { color: var(--text-muted); margin-bottom: 16px; font-size: 1rem; }
+    .section strong { color: var(--text); font-weight: 600; }
+    .section ul { margin-bottom: 20px; padding-left: 0; list-style: none; }
+    .section li { position: relative; padding-left: 28px; margin-bottom: 12px; color: var(--text-muted); font-size: 1rem; }
+    .section li::before { content: ''; position: absolute; left: 0; top: 7px; width: 16px; height: 16px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236d5cf5'%3E%3Cpath fill-rule='evenodd' d='M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z' clip-rule='evenodd'/%3E%3C/svg%3E"); background-size: contain; }
+    .divider { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
+    .document-container { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 40px; position: relative; overflow: hidden; }
+    .document-badge { position: absolute; top: 16px; right: -32px; background: var(--primary-soft); color: var(--primary-700); padding: 6px 40px; font-size: 10px; font-weight: 800; transform: rotate(45deg); letter-spacing: 1px; }
+    .document-header { text-align: right; max-width: 280px; margin-left: auto; margin-bottom: 36px; }
+    .document-body { color: var(--text-muted); }
+    .doc-line { display: inline-block; border-bottom: 1px solid var(--border-strong); height: 20px; vertical-align: bottom; margin: 0 4px; }
 
-    .section-header { margin-bottom: 24px; }
-    .section-number {
-      font-size: 0.85rem; font-weight: 700; color: var(--primary);
-      margin-bottom: 8px; display: block; letter-spacing: 0.05em;
-    }
-    .section h2 { 
-      font-size: 1.75rem; font-weight: 700; color: var(--text-main); 
-      letter-spacing: -0.5px; line-height: 1.3;
-    }
-
-    .section p { color: var(--text-muted); margin-bottom: 20px; font-size: 1.05rem; }
-    .section strong { color: var(--text-main); font-weight: 600; }
-
-    .section ul { margin-bottom: 24px; padding-left: 0; list-style: none; }
-    .section li {
-      position: relative; padding-left: 32px; margin-bottom: 16px;
-      color: var(--text-muted); font-size: 1.05rem;
-    }
-    /* Elegant Checkmark */
-    .section li::before {
-      content: "";
-      position: absolute; left: 0; top: 6px;
-      width: 18px; height: 18px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%234F46E5'%3E%3Cpath fill-rule='evenodd' d='M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z' clip-rule='evenodd'/%3E%3C/svg%3E");
-      background-size: contain; background-repeat: no-repeat;
-    }
-
-    /* --- Info Card --- */
-    .info-card {
-      background: var(--surface-300);
-      border-radius: 16px;
-      padding: 24px; margin-top: 32px;
-      display: flex; gap: 16px;
-      border-left: 4px solid var(--accent);
-    }
-    .info-card-icon {
-      flex-shrink: 0; width: 24px; height: 24px;
-      color: var(--accent);
-    }
-    .info-card p { margin-bottom: 0; color: var(--text-main); font-size: 0.95rem; font-weight: 500; }
-
-    /* --- Footer --- */
-    footer {
-      background: var(--surface-100); border-top: 1px solid var(--border-color);
-      padding: 48px 5vw; display: flex;
-      justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 24px; margin-top: 80px;
-    }
-    .footer-logo { font-size: 1.25rem; font-weight: 800; color: var(--text-main); }
-    .footer-links { display: flex; gap: 32px; }
-    .footer-links a { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; }
-    .footer-links a:hover { color: var(--primary); }
-    .footer-copy { font-size: 0.85rem; color: var(--text-light); }
-
-    /* --- Reading Progress Bar --- */
-    .progress-container {
-      position: fixed; top: var(--nav-height); left: 0; width: 100%; height: 3px;
-      background: transparent; z-index: 99;
-    }
-    .progress-bar {
-      height: 100%; background: var(--primary); width: 0%;
-      transition: width 0.1s ease;
-    }
-
-    /* --- Responsive --- */
-    @media (max-width: 1024px) {
-      .layout-wrapper { grid-template-columns: 240px 1fr; gap: 40px; }
-      .content-area { padding: 48px; }
-    }
-    @media (max-width: 768px) {
-      .page-title { font-size: 2.5rem; }
-      .layout-wrapper { grid-template-columns: 1fr; margin-top: 40px; }
-      .sidebar { position: static; margin-bottom: 24px; }
-      .sidebar-nav { border-left: none; display: flex; flex-direction: row; flex-wrap: wrap; gap: 8px; }
-      .sidebar-nav a { border-left: none; background: var(--surface-100); border: 1px solid var(--border-color); border-radius: 100px; padding: 6px 16px; font-size: 0.85rem; }
-      .sidebar-nav a.active { background: var(--text-main); color: #fff; border-color: var(--text-main); }
-      .content-area { padding: 32px 24px; border-radius: 16px; }
-    }
-    @media (max-width: 640px) {
-      .nav-links { display: none; }
-      .footer-links { flex-direction: column; gap: 16px; align-items: center; width: 100%; }
-      .footer-logo, .footer-copy { text-align: center; width: 100%; }
-    }
+    /* Footer */
+    footer { background: var(--bg-tint); border-top: 1px solid var(--border); padding: 28px 24px; margin-top: 72px; }
+    .footer-inner { max-width: var(--maxw); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 13px; color: var(--text-faint); }
+    .footer-links { display: flex; gap: 22px; }
+    .footer-links a { transition: color .15s; }
+    .footer-links a:hover { color: var(--primary-700); }
   </style>
 </head>
 <body>
+  <div class="progress-container"><div class="progress-bar" id="myBar"></div></div>
 
-<div class="progress-container">
-  <div class="progress-bar" id="myBar"></div>
-</div>
-
-<nav id="navbar">
-  <a href="{% url 'home' %}" class="logo">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
-    Sado<span>Uz</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="{% url 'home' %}#features">Xususiyatlar</a></li>
-    <li><a href="{% url 'home' %}#pricing">Narxlar</a></li>
-    <li><a href="{% url 'home' %}#register">Bog'lanish</a></li>
-  </ul>
-</nav>
-
-<header class="page-header">
-  <div class="header-bg"></div>
-  <div class="header-content">
-    <div class="eyebrow"><span class="eyebrow-dot"></span> Huquqiy hujjat</div>
-    <h1 class="page-title">Ommaviy Oferta</h1>
-    <p class="page-sub">Sayt xizmatlaridan foydalanish bo'yicha rasmiy qoidalar va shartlar. Oxirgi yangilanish: <strong>29-Aprel, 2026-yil</strong></p>
-  </div>
-</header>
-
-<main class="layout-wrapper">
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-title">Mundarija</div>
-    <ul class="sidebar-nav">
-      <li><a href="#tariflar" class="active">1. Ta’riflar</a></li>
-      <li><a href="#umumiy-qoidalar">2. Umumiy qoidalar</a></li>
-      <li><a href="#foydalanish">3. Xizmatdan foydalanish</a></li>
-      <li><a href="#hisob-qaydnomasi">4. Hisob qaydnomasi</a></li>
-      <li><a href="#kontent-ishlab-chiqarish">5. Kontent ishlab chiqarish</a></li>
-      <li><a href="#limitlar">6. Limitlar va tariflar</a></li>
-      <li><a href="#kontent-joylash">7. Kontent joylashtirish</a></li>
-      <li><a href="#shikoyatlar">12. Shikoyat qilish tartibi</a></li>
-      <li><a href="#nizolar">13. Nizolarni hal qilish</a></li>
-      <li><a href="#ilova-1">1-Ilova: Taqiqlangan faoliyat</a></li>
-      <li><a href="#ilova-2">2-Ilova: Bekor qilish arizasi</a></li>
-    </ul>
-  </aside>
-
-  <!-- Content -->
-  <div class="content-area">
-    <section id="tariflar" class="section">
-      <div class="section-header">
-        <span class="section-number">01</span>
-        <h2>Ta’riflar</h2>
-      </div>
-      <ul>
-        <li><strong>Kun</strong> — uzluksiz 24 soat.</li>
-        <li><strong>Mehmon</strong> — ro‘yxatdan o‘tmagan yoki tizimga kirilmagan foydalanuvchi.</li>
-        <li><strong>SADO.uz</strong> — sun’iy intellekt asosida ishlaydigan content production platforma, ya’ni yangiliklarni yig‘ish, filtrlash, summarizatsiya qilish, tarjima qilish va Telegram kanallarga avtomatik joylash xizmatini taqdim etuvchi tizim.</li>
-        <li><strong>Mijoz</strong> — SADO.uz xizmatlaridan foydalanayotgan jismoniy yoki yuridik shaxs.</li>
-        <li><strong>Hisob qaydnomasi</strong> — foydalanuvchining platformadagi shaxsiy profili, uning sozlamalari, kanallari va faoliyatini o‘z ichiga oladi.</li>
-        <li><strong>Kontent (Content)</strong> — tizim tomonidan avtomatik yoki yarim avtomatik tarzda yaratiladigan yangiliklar, summarylar, tarjimalar va postlar.</li>
-        <li><strong>Post</strong> — SADO.uz tomonidan tayyorlangan va Telegram yoki boshqa platformaga yuborishga tayyor kontent.</li>
-        <li><strong>Limit</strong> — Mijoz tanlagan tarif asosida ma’lum vaqt ichida yaratilishi mumkin bo‘lgan postlar soni.</li>
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="{% url 'home' %}" class="brand">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2"/>
+          </svg>
+        </div>
+        Sado.uz
+      </a>
+      <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Bosh sahifa</a></li>
+        <li><a href="{% url 'privacy' %}">Maxfiylik</a></li>
       </ul>
-    </section>
+    </div>
+  </nav>
 
-    <section id="umumiy-qoidalar" class="section">
-      <div class="section-header">
+  <div class="progress-container" style="top:64px"><div class="progress-bar" id="myBar"></div></div>
+
+  <header class="page-header">
+    <div class="eyebrow"><span style="width:6px;height:6px;border-radius:50%;background:var(--primary)"></span> Huquqiy hujjat</div>
+    <h1 class="page-h1">Ommaviy Oferta</h1>
+    <p class="page-sub">Sayt xizmatlaridan foydalanish bo'yicha rasmiy qoidalar va shartlar. Oxirgi yangilanish: <strong style="color:var(--text)">29-Aprel, 2026-yil</strong></p>
+  </header>
+
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-title">Mundarija</div>
+      <ul class="sidebar-nav">
+        <li><a href="#tariflar" class="active">1. Ta'riflar</a></li>
+        <li><a href="#umumiy-qoidalar">2. Umumiy qoidalar</a></li>
+        <li><a href="#foydalanish">3. Xizmatdan foydalanish</a></li>
+        <li><a href="#hisob-qaydnomasi">4. Hisob qaydnomasi</a></li>
+        <li><a href="#kontent-ishlab-chiqarish">5. Kontent ishlab chiqarish</a></li>
+        <li><a href="#limitlar">6. Limitlar va tariflar</a></li>
+        <li><a href="#kontent-joylash">7. Kontent joylashtirish</a></li>
+        <li><a href="#shikoyatlar">12. Shikoyat qilish tartibi</a></li>
+        <li><a href="#nizolar">13. Nizolarni hal qilish</a></li>
+        <li><a href="#ilova-1">1-Ilova: Taqiqlangan faoliyat</a></li>
+        <li><a href="#ilova-2">2-Ilova: Bekor qilish arizasi</a></li>
+      </ul>
+    </aside>
+
+    <!-- Content -->
+    <div class="content-area">
+      <section id="tariflar" class="section">
+        <span class="section-number">01</span>
+        <h2>Ta'riflar</h2>
+        <ul>
+          <li><strong>Kun</strong> — uzluksiz 24 soat.</li>
+          <li><strong>Mehmon</strong> — ro'yxatdan o'tmagan yoki tizimga kirilmagan foydalanuvchi.</li>
+          <li><strong>SADO.uz</strong> — sun'iy intellekt asosida ishlaydigan content production platforma, ya'ni yangiliklarni yig'ish, filtrlash, summarizatsiya qilish, tarjima qilish va Telegram kanallarga avtomatik joylash xizmatini taqdim etuvchi tizim.</li>
+          <li><strong>Mijoz</strong> — SADO.uz xizmatlaridan foydalanayotgan jismoniy yoki yuridik shaxs.</li>
+          <li><strong>Hisob qaydnomasi</strong> — foydalanuvchining platformadagi shaxsiy profili, uning sozlamalari, kanallari va faoliyatini o'z ichiga oladi.</li>
+          <li><strong>Kontent (Content)</strong> — tizim tomonidan avtomatik yoki yarim avtomatik tarzda yaratiladigan yangiliklar, summarylar, tarjimalar va postlar.</li>
+          <li><strong>Post</strong> — SADO.uz tomonidan tayyorlangan va Telegram yoki boshqa platformaga yuborishga tayyor kontent.</li>
+          <li><strong>Limit</strong> — Mijoz tanlagan tarif asosida ma'lum vaqt ichida yaratilishi mumkin bo'lgan postlar soni.</li>
+        </ul>
+      </section>
+
+      <section id="umumiy-qoidalar" class="section">
         <span class="section-number">02</span>
         <h2>Umumiy qoidalar</h2>
-      </div>
-      <p>1. Ushbu Qoidalar SADO.uz platformasidan foydalanish shartlarini belgilaydi.</p>
-      <p>2. Har bir foydalanuvchi tizimdan foydalanishdan oldin ushbu qoidalarni qabul qilgan hisoblanadi.</p>
-      <p>3. SADO.uz platformasi shunchaki news summarization tool emas, balki AI asosidagi content production system hisoblanadi.</p>
-      <p>4. Platforma quyidagi xizmatlarni taqdim etadi:</p>
-      <ul>
-        <li>Yangiliklarni avtomatik yig‘ish</li>
-        <li>Kontentni filtr qilish va kategoriyalash</li>
-        <li>AI orqali summary va tarjima qilish</li>
-        <li>Inson yozgandek (human-like) postlar yaratish</li>
-        <li>Telegram kanallarga avtomatik joylash</li>
-      </ul>
-    </section>
+        <p>1. Ushbu Qoidalar SADO.uz platformasidan foydalanish shartlarini belgilaydi.</p>
+        <p>2. Har bir foydalanuvchi tizimdan foydalanishdan oldin ushbu qoidalarni qabul qilgan hisoblanadi.</p>
+        <p>3. SADO.uz platformasi shunchaki news summarization tool emas, balki AI asosidagi content production system hisoblanadi.</p>
+        <p>4. Platforma quyidagi xizmatlarni taqdim etadi:</p>
+        <ul>
+          <li>Yangiliklarni avtomatik yig'ish</li>
+          <li>Kontentni filtr qilish va kategoriyalash</li>
+          <li>AI orqali summary va tarjima qilish</li>
+          <li>Insoniy (human-like) postlar yaratish</li>
+          <li>Telegram kanallarga avtomatik joylash</li>
+        </ul>
+      </section>
 
-    <section id="foydalanish" class="section">
-      <div class="section-header">
+      <section id="foydalanish" class="section">
         <span class="section-number">03</span>
         <h2>Xizmatdan foydalanish</h2>
-      </div>
-      <p>1. Foydalanuvchi platformaning barcha funksiyalaridan tarifiga qarab foydalanadi.</p>
-      <p>2. Kontent avtomatik ravishda yoki foydalanuvchi tanlovi asosida generatsiya qilinadi.</p>
-      <p>3. Foydalanuvchi tayyor postlarni avtomatik nashr qilishi yoki qo‘lda tanlab post qilishi mumkin.</p>
-      <p>4. SADO.uz kontent sifatini maksimal darajada ta’minlashga harakat qiladi, lekin 100% aniqlik kafolatlanmaydi.</p>
-    </section>
+        <p>1. Foydalanuvchi platformaning barcha funksiyalaridan tarifiga qarab foydalanadi.</p>
+        <p>2. Kontent avtomatik ravishda yoki foydalanuvchi tanlovi asosida generatsiya qilinadi.</p>
+        <p>3. Foydalanuvchi tayyor postlarni avtomatik nashr qilishi yoki qo'lda tanlab post qilishi mumkin.</p>
+        <p>4. SADO.uz kontent sifatini maksimal darajada ta'minlashga harakat qiladi, lekin 100% aniqlik kafolatlanmaydi.</p>
+      </section>
 
-    <section id="hisob-qaydnomasi" class="section">
-      <div class="section-header">
+      <section id="hisob-qaydnomasi" class="section">
         <span class="section-number">04</span>
         <h2>Hisob qaydnomasi</h2>
-      </div>
-      <p>1. Har bir foydalanuvchi tizimdan foydalanish uchun hisob qaydnomasi yaratishi shart.</p>
-      <p>2. Hisob qaydnomasi orqali kanallar boshqariladi, sozlamalar o‘zgartiriladi va kontent monitoring qilinadi.</p>
-      <p>3. Foydalanuvchi o‘z login ma’lumotlarini maxfiy saqlashi shart.</p>
-    </section>
+        <p>1. Har bir foydalanuvchi tizimdan foydalanish uchun hisob qaydnomasi yaratishi shart.</p>
+        <p>2. Hisob qaydnomasi orqali kanallar boshqariladi, sozlamalar o'zgartiriladi va kontent monitoring qilinadi.</p>
+        <p>3. Foydalanuvchi o'z login ma'lumotlarini maxfiy saqlashi shart.</p>
+      </section>
 
-    <section id="kontent-ishlab-chiqarish" class="section">
-      <div class="section-header">
+      <section id="kontent-ishlab-chiqarish" class="section">
         <span class="section-number">05</span>
         <h2>Kontent ishlab chiqarish</h2>
-      </div>
-      <p>1. SADO.uz tizimi internetdan olingan ma’lumotlarni avtomatik qayta ishlaydi.</p>
-      <p>2. Tizim quyidagi bosqichlarda ishlaydi: data collection, filtering, scoring, summarization, translation, content formatting va publishing.</p>
-      <p>3. Tizim tomonidan yaratilgan kontent original yangiliklarni qayta ishlash natijasidir va inson yozgan uslubga yaqin bo‘ladi.</p>
-    </section>
+        <p>1. SADO.uz tizimi internetdan olingan ma'lumotlarni avtomatik qayta ishlaydi.</p>
+        <p>2. Tizim quyidagi bosqichlarda ishlaydi: data collection, filtering, scoring, summarization, translation, content formatting va publishing.</p>
+        <p>3. Tizim tomonidan yaratilgan kontent original yangiliklarni qayta ishlash natijasidir va inson yozgan uslubga yaqin bo'ladi.</p>
+      </section>
 
-    <section id="limitlar" class="section">
-      <div class="section-header">
+      <section id="limitlar" class="section">
         <span class="section-number">06</span>
         <h2>Limitlar va tariflar</h2>
-      </div>
-      <p>Sado.uz xizmatlari uchun quyidagi tarif rejalari amal qiladi (narxlar so'mda ko'rsatilgan):</p>
-      <ul>
-        <li><strong>Starter Plan:</strong> 370,000 so'm/oy (150 xabar/oy)</li>
-        <li><strong>Growth Plan:</strong> 1,000,000 so'm/oy (500 xabar/oy)</li>
-        <li><strong>Business Plan:</strong> 2,500,000 so'm/oy (2000+ xabar/oy)</li>
-      </ul>
-      <p>To'lovlar elektron to'lov tizimlari yoki bank o'tkazmasi orqali amalga oshiriladi.</p>
-    </section>
+        <p>Sado.uz xizmatlari uchun quyidagi tarif rejalari amal qiladi (narxlar so'mda ko'rsatilgan):</p>
+        <ul>
+          <li><strong>Starter Plan:</strong> 370,000 so'm/oy (150 xabar/oy)</li>
+          <li><strong>Growth Plan:</strong> 1,000,000 so'm/oy (500 xabar/oy)</li>
+          <li><strong>Business Plan:</strong> 2,500,000 so'm/oy (2000+ xabar/oy)</li>
+        </ul>
+        <p>To'lovlar elektron to'lov tizimlari yoki bank o'tkazmasi orqali amalga oshiriladi.</p>
+      </section>
 
-    <section id="kontent-joylash" class="section">
-      <div class="section-header">
+      <section id="kontent-joylash" class="section">
         <span class="section-number">07</span>
         <h2>Kontent joylashtirish qoidalari</h2>
-      </div>
-      <p>1. SADO.uz foydalanuvchiga platforma orqali AI-generated kontent (postlar) yaratish va ularni Telegram kanallariga joylashtirish imkonini beradi.</p>
-      <p>2. Kontent real vaqt yangiliklari asosida yaratiladi va foydalanuvchi ularni avtomatik yoki qo'lda nashr qilishi mumkin.</p>
-      <p>3. SADO.uz original yangilikni copy qilmaydi, balki uni qayta yozib, yangi formatda taqdim etadi.</p>
-      <p>4. Tizim quyidagi kontentlarni yaratmaydi yoki bloklaydi: noqonuniy faoliyat, zararli/ekstremistik ma'lumotlar, pornografik materiallar va fake news.</p>
-    </section>
+        <p>1. SADO.uz foydalanuvchiga platforma orqali AI-generated kontent (postlar) yaratish va ularni Telegram kanallariga joylashtirish imkonini beradi.</p>
+        <p>2. Kontent real vaqt yangiliklari asosida yaratiladi va foydalanuvchi ularni avtomatik yoki qo'lda nashr qilishi mumkin.</p>
+        <p>3. SADO.uz original yangilikni copy qilmaydi, balki uni qayta yozib, yangi formatda taqdim etadi.</p>
+        <p>4. Tizim quyidagi kontentlarni yaratmaydi yoki bloklaydi: noqonuniy faoliyat, zararli/ekstremistik ma'lumotlar, pornografik materiallar va fake news.</p>
+      </section>
 
-    <section id="shikoyatlar" class="section">
-      <div class="section-header">
+      <section id="shikoyatlar" class="section">
         <span class="section-number">12</span>
         <h2>Shikoyat qilish tartibi</h2>
-      </div>
-      <p>Foydalanuvchi servisdan foydalanish jarayonida muammo yuzaga kelsa, mijozlarni qo‘llab-quvvatlash xizmatiga murojaat qilishi kerak. Shikoyatlar ko‘rib chiqilishi muddati odatda 15 ish kuni ichida amalga oshiriladi.</p>
-    </section>
+        <p>Foydalanuvchi servisdan foydalanish jarayonida muammo yuzaga kelsa, mijozlarni qo'llab-quvvatlash xizmatiga murojaat qilishi kerak. Shikoyatlar ko'rib chiqilishi muddati odatda 15 ish kuni ichida amalga oshiriladi.</p>
+      </section>
 
-    <section id="nizolar" class="section">
-      <div class="section-header">
+      <section id="nizolar" class="section">
         <span class="section-number">13</span>
         <h2>Nizolarni sudgacha hal qilish</h2>
-      </div>
-      <p>Foydalanuvchi va kompaniya o‘rtasidagi nizolar avvalo muzokara va mijozlarni qo‘llab-quvvatlash xizmati orqali hal qilinadi. Agar nizoni ichki tartibda hal qilish imkoni bo‘lmasa, O‘zbekiston Respublikasi qonunchiligiga muvofiq tegishli organlarga murojaat qilinadi.</p>
-    </section>
+        <p>Foydalanuvchi va kompaniya o'rtasidagi nizolar avvalo muzokara va mijozlarni qo'llab-quvvatlash xizmati orqali hal qilinadi. Agar nizoni ichki tartibda hal qilish imkoni bo'lmasa, O'zbekiston Respublikasi qonunchiligiga muvofiq tegishli organlarga murojaat qilinadi.</p>
+      </section>
 
-    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 64px 0;">
+      <hr class="divider">
 
-    <section id="ilova-1" class="section">
-      <div class="section-header">
+      <section id="ilova-1" class="section">
         <span class="section-number">ILOVA 1</span>
         <h2>Taqiqlangan va shartli ruxsat etilgan faoliyat</h2>
-      </div>
-      <p><strong>1. Taqiqlangan faoliyat va kontent:</strong></p>
-      <ul>
-        <li>Pornografik kontent ishlab chiqarish va tarqatish.</li>
-        <li>Voyaga yetmaganlar ishtirokidagi materiallar.</li>
-        <li>Nafrat, irqchilik va zo'ravonlikni targ'ib qilish.</li>
-        <li>Terrorizm va ekstremizmni qo'llab-quvvatlash.</li>
-        <li>Firibgarlik va moliyaviy piramidalar.</li>
-        <li>Giyohvand moddalar va qurol-yarog' savdosi.</li>
-        <li>Soxta hujjatlar tayyorlash va shaxsiy ma'lumotlar bazasi savdosi.</li>
-      </ul>
-      <p><strong>2. Shartli ruxsat etilgan faoliyat:</strong></p>
-      <p>Elektron kitoblar, litsenziyalangan dasturlar, BAA va moliyaviy xizmatlar faqat tegishli hujjatlar va litsenziyalar mavjud bo'lganda ruxsat etiladi.</p>
-    </section>
+        <p><strong>1. Taqiqlangan faoliyat va kontent:</strong></p>
+        <ul>
+          <li>Pornografik kontent ishlab chiqarish va tarqatish.</li>
+          <li>Voyaga yetmaganlar ishtirokidagi materiallar.</li>
+          <li>Nafrat, irqchilik va zo'ravonlikni targ'ib qilish.</li>
+          <li>Terrorizm va ekstremizmni qo'llab-quvvatlash.</li>
+          <li>Firibgarlik va moliyaviy piramidalar.</li>
+          <li>Giyohvand moddalar va qurol-yarog' savdosi.</li>
+          <li>Soxta hujjatlar tayyorlash va shaxsiy ma'lumotlar bazasi savdosi.</li>
+        </ul>
+        <p><strong>2. Shartli ruxsat etilgan faoliyat:</strong></p>
+        <p>Elektron kitoblar, litsenziyalangan dasturlar, BAA va moliyaviy xizmatlar faqat tegishli hujjatlar va litsenziyalar mavjud bo'lganda ruxsat etiladi.</p>
+      </section>
 
-    <section id="ilova-2" class="section">
-      <div class="section-header">
+      <section id="ilova-2" class="section">
         <span class="section-number">ILOVA 2</span>
-        <h2>Shartnomani bekor qilish to‘g‘risida ariza namunasi</h2>
-      </div>
-      
-      <div class="document-container">
-        <div class="document-badge">ARIZA NAMUNASI</div>
-        
-        <div class="document-header">
-          <p><strong>“Micron” MCHJ rahbariga</strong></p>
-          <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 4px;">Toshkent sh., Sado.uz platformasi operatori</p>
-        </div>
-
-        <div class="document-body">
-          <h3 style="text-align: center; margin: 40px 0 30px; letter-spacing: 2px; font-weight: 800;">ARIZA</h3>
-          
-          <p style="text-indent: 40px; line-height: 2;">
-            Men, <span class="doc-line" style="width: 250px;"></span>, shu bilan Sizga <strong>Sado.uz</strong> servisi orqali ro‘yxatdan o‘tgan (Telefon yoki Email: <span class="doc-line" style="width: 200px;"></span>) akkauntimga taqdim etilgan xizmat ko‘rsatish shartnomasini bekor qilishim haqida xabar beraman.
-          </p>
-
-          <div style="margin-top: 40px; display: grid; gap: 20px;">
-            <p>Shartnoma tuzilgan sana: <span class="doc-line" style="width: 150px;"></span></p>
-            <p>Ariza yuborilgan sana: <span class="doc-line" style="width: 150px;"></span></p>
+        <h2>Shartnomani bekor qilish to'g'risida ariza namunasi</h2>
+        <div class="document-container">
+          <div class="document-badge">ARIZA NAMUNASI</div>
+          <div class="document-header">
+            <p><strong>"Micron" MCHJ rahbariga</strong></p>
+            <p style="font-size:0.88rem;color:var(--text-faint);margin-top:4px">Toshkent sh., Sado.uz platformasi operatori</p>
           </div>
-
-          <div style="margin-top: 60px; display: flex; justify-content: space-between; align-items: flex-end;">
-            <div>
-              <p style="font-size: 0.8rem; color: var(--text-light);">F.I.SH:</p>
-              <div class="doc-line" style="width: 200px;"></div>
+          <div class="document-body">
+            <h3 style="text-align:center;margin:32px 0 24px;letter-spacing:2px;font-weight:800;font-family:'Space Grotesk',sans-serif">ARIZA</h3>
+            <p style="text-indent:36px;line-height:2">
+              Men, <span class="doc-line" style="width:220px"></span>, shu bilan Sizga <strong style="color:var(--text)">Sado.uz</strong> servisi orqali ro'yxatdan o'tgan (Telefon yoki Email: <span class="doc-line" style="width:180px"></span>) akkauntimga taqdim etilgan xizmat ko'rsatish shartnomasini bekor qilishim haqida xabar beraman.
+            </p>
+            <div style="margin-top:36px;display:grid;gap:16px">
+              <p>Shartnoma tuzilgan sana: <span class="doc-line" style="width:140px"></span></p>
+              <p>Ariza yuborilgan sana: <span class="doc-line" style="width:140px"></span></p>
             </div>
-            <div style="text-align: right;">
-              <p style="font-size: 0.8rem; color: var(--text-light);">Imzo:</p>
-              <div class="doc-line" style="width: 120px;"></div>
+            <div style="margin-top:52px;display:flex;justify-content:space-between;align-items:flex-end">
+              <div>
+                <p style="font-size:12px;color:var(--text-faint)">F.I.SH:</p>
+                <div class="doc-line" style="width:180px"></div>
+              </div>
+              <div style="text-align:right">
+                <p style="font-size:12px;color:var(--text-faint)">Imzo:</p>
+                <div class="doc-line" style="width:110px"></div>
+              </div>
             </div>
           </div>
         </div>
+      </section>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--text)">Sado.uz</div>
+      <div>&copy; 2026 SadoUz. Barcha huquqlar himoyalangan.</div>
+      <div class="footer-links">
+        <a href="{% url 'home' %}">Bosh sahifa</a>
+        <a href="{% url 'oferta' %}">Ommaviy oferta</a>
+        <a href="{% url 'privacy' %}">Maxfiylik siyosati</a>
       </div>
+    </div>
+  </footer>
 
-      <style>
-        .document-container {
-          background: #fff;
-          border: 1px solid var(--border-color);
-          border-radius: 16px;
-          padding: 60px;
-          position: relative;
-          box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
-          overflow: hidden;
-        }
-        .document-badge {
-          position: absolute;
-          top: 20px;
-          right: -35px;
-          background: var(--surface-300);
-          color: var(--text-light);
-          padding: 8px 45px;
-          font-size: 0.7rem;
-          font-weight: 800;
-          transform: rotate(45deg);
-          letter-spacing: 1px;
-        }
-        .document-header {
-          text-align: right;
-          max-width: 300px;
-          margin-left: auto;
-          margin-bottom: 40px;
-        }
-        .document-body {
-          color: #334155;
-        }
-        .doc-line {
-          display: inline-block;
-          border-bottom: 1px solid #94a3b8;
-          height: 20px;
-          vertical-align: bottom;
-          margin: 0 5px;
-        }
-      </style>
-    </section>
-  </div>
-</main>
-
-<footer>
-  <div class="footer-logo">SadoUz</div>
-  <div class="footer-links">
-    <a href="{% url 'home' %}#features">Xususiyatlar</a>
-    <a href="{% url 'home' %}#pricing">Narxlar</a>
-    <a href="{% url 'home' %}#register">Bog'lanish</a>
-    <a href="{% url 'oferta' %}">Ommaviy oferta</a>
-    <a href="{% url 'privacy' %}">Maxfiylik siyosati</a>
-  </div>
-  <div class="footer-copy">© 2026 SadoUz. Barcha huquqlar himoyalangan.</div>
-</footer>
-
-<script>
-  // Progress bar logic
-  window.onscroll = function() {
-    let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-    let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    let scrolled = (winScroll / height) * 100;
-    document.getElementById("myBar").style.width = scrolled + "%";
-  };
-
-  // Scroll spy logic
-  const sections = document.querySelectorAll('.section');
-  const navLinks = document.querySelectorAll('.sidebar-nav a');
-
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      if (pageYOffset >= (sectionTop - 120)) {
-        current = section.getAttribute('id');
-      }
+  <script>
+    window.onscroll = function() {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      document.getElementById('myBar').style.width = (winScroll / height * 100) + '%';
+    };
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.sidebar-nav a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if (pageYOffset >= s.offsetTop - 120) current = s.getAttribute('id'); });
+      navLinks.forEach(l => { l.classList.remove('active'); if (l.getAttribute('href').includes(current)) l.classList.add('active'); });
     });
-
-    navLinks.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href').includes(current)) {
-        link.classList.add('active');
-      }
-    });
-  });
-</script>
-
+  </script>
 </body>
 </html>
